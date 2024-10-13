@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows8.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <LangVersion>12.0</LangVersion>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>false</SelfContained>
+    <!-- Set this to true if you want the .NET runtime bundled -->
+    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+    <!-- For embedded resources -->
+    <TrimUnusedDependencies>true</TrimUnusedDependencies>
+    <SupportedOSPlatformVersion>8.0</SupportedOSPlatformVersion>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!-- Optional, for trimming unused stuff -->
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>True</Optimize>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms">
+      <HintPath>C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App\8.0.10\System.Windows.Forms.dll</HintPath>
+      <!-- Specify the exact path if necessary -->
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <HintPath>C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App\8.0.10\System.Drawing.dll</HintPath>
+      <!-- Specify the exact path if necessary -->
+    </Reference>
+    <!-- Add System.Net.Http for HttpClient support -->
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+  </ItemGroup>
+
+</Project>
