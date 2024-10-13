@@ -27,7 +27,7 @@ c$ = "Foo"
 TextWindow.WriteLine(x$ + y$ + c$)
 SayHello()
 
-Goto myLabel:
+Goto MyLabel:
 TextWindow.WriteLine("I'm never printed.")
 
 MyLabel:
@@ -61,7 +61,7 @@ namespace SmallBasicOpenEditionDll
             SayHello();
 
             // This line will not be executed
-            Goto myLabel:
+            Goto MyLabel:
             TextWindow.WriteLine("I'm never printed.");
 
             MyLabel:
