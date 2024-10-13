@@ -1,7 +1,7 @@
 ﻿/* 
  * Project: SmallBasicOpenEditionDll
  * Language: C#
- * File: Test_Class_Contolr.cs
+ * File: Class_Control.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
  * Updated: 13th October 2024 Kristian Virtanen
  * License: See license.txt
