@@ -60,12 +60,7 @@ namespace SmallBasicOpenEditionDll
         /// <exception cref="InvalidOperationException">Thrown if the GraphicsWindow is not initialized.</exception>
         public static dynamic AddButton(string caption, int left, int top)
         {
-            Button button = new()
-            {
-                Text = caption,
-                Location = new Point(left, top),
-                Name = "Button" + controlList.Count
-            };
+            Button button = new() { Text = caption, Location = new Point(left, top), Name = "Button" + controlList.Count };
 
             button.Click += (s, e) =>
             {
@@ -93,11 +88,7 @@ namespace SmallBasicOpenEditionDll
         /// <exception cref="InvalidOperationException">Thrown if the GraphicsWindow is not initialized.</exception>
         public static dynamic AddTextBox(int left, int top)
         {
-            TextBox textBox = new()
-            {
-                Location = new Point(left, top),
-                Name = "TextBox" + controlList.Count
-            };
+            TextBox textBox = new() { Location = new Point(left, top), Name = "TextBox" + controlList.Count };
 
             textBox.TextChanged += (s, e) =>
             {
@@ -125,13 +116,7 @@ namespace SmallBasicOpenEditionDll
         /// <exception cref="InvalidOperationException">Thrown if the GraphicsWindow is not initialized.</exception>
         public static dynamic AddMultiLineTextBox(int left, int top)
         {
-            TextBox textBox = new()
-            {
-                Location = new Point(left, top),
-                Name = "MultiLineTextBox" + controlList.Count,
-                Multiline = true,
-                Size = new Size(200, 100)
-            };
+            TextBox textBox = new() { Location = new Point(left, top), Name = "MultiLineTextBox" + controlList.Count, Multiline = true, Size = new Size(200, 100) };
 
             textBox.TextChanged += (s, e) =>
             {

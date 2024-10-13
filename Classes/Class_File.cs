@@ -14,6 +14,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 
 
 namespace SmallBasicOpenEditionDll
@@ -118,22 +119,23 @@ namespace SmallBasicOpenEditionDll
         }
 
         /// <summary>
-        /// Inserts a line into the file at the specified line number.
+        /// Inserts a specific line in the file without overwriting existing lines.
         /// </summary>
-        /// <param name="filePath">The file path to insert the line into.</param>
-        /// <param name="lineNumber">The line number to insert at (1-based).</param>
-        /// <param name="contents">The contents to insert.</param>
+        /// <param name="filePath">The file path to write to.</param>
+        /// <param name="lineNumber">The line number to insert the new line (1-based).</param>
+        /// <param name="contents">The contents to insert at the specified line.</param>
         /// <returns>True if the operation succeeds, otherwise false.</returns>
         public static bool InsertLine(string filePath, int lineNumber, string contents)
         {
             try
             {
                 LastError = "";
-                var lines = new List<string>(System.IO.File.ReadAllLines(filePath));
-                if (lineNumber >= 1 && lineNumber <= lines.Count + 1)
+                var lines = System.IO.File.ReadAllLines(filePath).ToList(); // Convert to list to allow insertions
+
+                if (lineNumber >= 1 && lineNumber <= lines.Count + 1) // Allow insertion at the end as well
                 {
-                    lines.Insert(lineNumber - 1, contents);
-                    System.IO.File.WriteAllLines(filePath, [.. lines]);
+                    lines.Insert(lineNumber - 1, contents); // Insert the new line at the specified position
+                    System.IO.File.WriteAllLines(filePath, lines); // Write the updated lines back to the file
                     return true;
                 }
                 return false;
@@ -144,6 +146,8 @@ namespace SmallBasicOpenEditionDll
                 return false;
             }
         }
+
+
 
         /// <summary>
         /// Appends contents to the end of a file.

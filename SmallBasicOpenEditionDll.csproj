@@ -16,6 +16,8 @@
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <!-- Optional, for trimming unused stuff -->
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\SmallBasicOpenEditionDll.xml</DocumentationFile>
+
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

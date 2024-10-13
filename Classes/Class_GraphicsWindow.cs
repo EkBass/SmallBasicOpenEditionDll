@@ -95,18 +95,9 @@ namespace SmallBasicOpenEditionDll
         {
             if (graphicsForm == null)
             {
-                graphicsForm = new Form
-                {
-                    Text = "Graphics Window",
-                    Size = new Size(Width, Height),
-                    FormBorderStyle = canResize ? FormBorderStyle.Sizable : FormBorderStyle.FixedDialog
-                };
+                graphicsForm = new Form { Text = "Graphics Window", Size = new Size(Width, Height), FormBorderStyle = canResize ? FormBorderStyle.Sizable : FormBorderStyle.FixedDialog };
 
-                drawingPanel = new Panel
-                {
-                    Dock = DockStyle.Fill,
-                    BackColor = backgroundColor
-                };
+                drawingPanel = new Panel { Dock = DockStyle.Fill, BackColor = backgroundColor };
 
                 graphicsForm.Controls.Add(drawingPanel);
                 graphicsForm.Show();
