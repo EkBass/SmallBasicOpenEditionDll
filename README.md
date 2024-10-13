@@ -1,6 +1,6 @@
 Hi,
 
-This project (SmallBasicOpenEdition) is part of a larger whole, where the goal is to recreate [Microsoft SmallBasic](https://smallbasic-publicwebsite.azurewebsites.net/), at least in its main features.
+This project (SmallBasicOpenEditionDll) is part of a larger whole, where the goal is to recreate [Microsoft SmallBasic](https://smallbasic-publicwebsite.azurewebsites.net/), at least in its main features.
 
 The first phase of the project, which is exactly this, is to create the same classes as in SmallBasic: **Text**, **Math**, **GraphicsWindow**, and so on. The project is mostly complete, although types for variables, some small tests, and so on are still required.
 
