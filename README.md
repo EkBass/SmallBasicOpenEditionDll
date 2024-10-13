@@ -1,11 +1,18 @@
-Hi,
+## Index:
+1. [Overview](#smallbasic-open-edition)
+2. [Example](#example-smallbasic-program)
+3. [Notes](#some-notes)
+4. [SmallBasic resources](#smallbasic-resources)
+5. [Contant](#contact)
+
+
+
+## SmallBasic Open Edition
 
 This project (SmallBasicOpenEditionDll) is part of a larger whole, where the goal is to recreate [Microsoft SmallBasic](https://smallbasic-publicwebsite.azurewebsites.net/), at least in its main features.
 
 The first phase of the project, which is exactly this, is to create the same classes as in SmallBasic: **Text**, **Math**, **GraphicsWindow**, and so on. The project is mostly complete, although types for variables, some small tests, and so on are still required.
 
-**Note:** The classes **Array**, **Flickr**, and **Dictionary** have not been created. 
- 
 **Array** is missing because I have not yet decided on the final way the future compiler will handle arrays. I have a couple of different solutions for this, but I haven’t had time to decide yet.  
 
 **Flickr** is missing because I am simply not very familiar with this service, and their API is completely unknown to me.  
@@ -16,7 +23,7 @@ Unlike the original SmallBasic, Open Edition converts SmallBasic code into the C
 
 Variables will function mostly the same way as in the original SmallBasic. This is made possible by C#’s **dynamic**. However, the idea is that variables will require a suffix of "$" at the end of their names. Not only does this make the programs easier to compile, but I also believe it helps distinguish variables and makes coding a bit easier.
 
-Example SmallBasic program:
+## Example SmallBasic program:
 
 ```smallbasic
 ' Example Smallbasic program
@@ -77,6 +84,21 @@ namespace SmallBasicOpenEditionDll
 }
 ```
 
+## Some notes:
+
 **Note:** I work with this while I am working with two job's and such, so this will not more forward in fast speed. Help is appreciated here. Let me know :)
 
 If you download this project, make sure your paths at **SmallBasicOpenEditionDll.csproj** are adjusted correctly.
+
+## SmallBasic resources
+
+[Microsoft SmallBasic](https://smallbasic-publicwebsite.azurewebsites.net/) Original site, not updated anymore.
+
+[litdev.uk](https://litdev.uk/) Best resources there still is for SmallBasic.
+
+[litdev.uk Forums](https://litdev.uk/mybb/index.php) litdev.uk forums for SmallBasic.
+
+[FB group for SmallBasic](https://www.facebook.com/groups/smallbasic) 
+
+## Contact
+join("krisu", ".virtanen", "@", "gmail.", "com")
