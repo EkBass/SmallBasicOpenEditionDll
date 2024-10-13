@@ -31,43 +31,29 @@ namespace SmallBasicOpenEditionDll
         private const int SPIF_UPDATEINIFILE = 0x01;
         private const int SPIF_SENDCHANGE = 0x02;
 
-        /// <summary>
-        /// Gets the width of the primary screen (desktop) in pixels.
-        /// </summary>
-        public static dynamic Width
-        {
-            get
-            {
-                return Screen.PrimaryScreen != null ? Screen.PrimaryScreen.Bounds.Width : 0;
-            }
-        }
+        /// <summary>Gets the width of the primary screen (desktop) in pixels.</summary>
+        public static dynamic Width => Screen.PrimaryScreen != null ? Screen.PrimaryScreen.Bounds.Width : 0;
 
-        /// <summary>
-        /// Gets the height of the primary screen (desktop) in pixels.
-        /// </summary>
-        public static dynamic Height
-        {
-            get
-            {
-                return Screen.PrimaryScreen != null ? Screen.PrimaryScreen.Bounds.Height : 0;
-            }
-        }
+        /// <summary>Gets the height of the primary screen (desktop) in pixels.</summary>
+        public static dynamic Height => Screen.PrimaryScreen != null ? Screen.PrimaryScreen.Bounds.Height : 0;
 
-        /// <summary>
-        /// Sets the desktop wallpaper to the specified file path or URL.
-        /// </summary>
-        public static void SetWallpaper(string fileOrUrl)
+        /// <summary>Sets the desktop wallpaper to the specified file path or URL.</summary>
+        public static void SetWallpaper(dynamic fileOrUrl)
         {
-            if (string.IsNullOrWhiteSpace(fileOrUrl))
+            fileOrUrl = (string)fileOrUrl;
+
+            if (!string.IsNullOrWhiteSpace(fileOrUrl))
+            {
+                int result = SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, fileOrUrl, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
+
+                if (result == 0)
+                {
+                    throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
+                }
+            }
+            else
             {
                 throw new ArgumentException("File path or URL cannot be null or empty.", nameof(fileOrUrl));
-            }
-
-            int result = SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, fileOrUrl, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
-
-            if (result == 0)
-            {
-                throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
             }
         }
     }
