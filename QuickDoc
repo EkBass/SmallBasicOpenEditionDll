@@ -1,0 +1,540 @@
+# SmallBasicOpenEditionDll Documentation
+
+## Clock
+Provides access to the system clock to retrieve the current time, date, and related information.
+
+## Clock.Time
+Gets the current system time as a string in "HH:mm:ss" format.
+
+## Clock.Date
+Gets the current system date as a string in "yyyy-MM-dd" format.
+
+## Clock.Year
+Gets the current system year as an integer.
+
+## Clock.Month
+Gets the current system month as an integer.
+
+## Clock.Day
+Gets the current day of the month as an integer.
+
+## Clock.WeekDay
+Gets the current day of the week as a string.
+
+## Clock.Hour
+Gets the current system hour as an integer.
+
+## Clock.Minute
+Gets the current system minute as an integer.
+
+## Clock.Second
+Gets the current system second as an integer.
+
+## Clock.Millisecond
+Gets the current system millisecond as an integer.
+
+## Clock.ElapsedMilliseconds
+Gets the number of milliseconds that have elapsed since January 1, 1900.
+
+## Controls
+Provides functionality to create and manage UI controls (buttons, textboxes) in the GraphicsWindow.
+
+## Controls.ButtonClicked
+Occurs when any button is clicked.
+
+## Controls.TextTyped
+Occurs when text is typed into any textbox.
+
+## Controls.LastClickedButton
+Gets the name of the last clicked button, or null if no button has been clicked.
+
+## Controls.LastTypedTextBox
+Gets the name of the last text box that had text typed into it, or null if no text was typed.
+
+## Controls.AddButton(System.String,System.Int32,System.Int32)
+Adds a button to the GraphicsWindow at the specified position.
+
+## Controls.AddTextBox(System.Int32,System.Int32)
+Adds a single-line textbox to the GraphicsWindow at the specified position.
+
+## Controls.AddMultiLineTextBox(System.Int32,System.Int32)
+Adds a multi-line textbox to the GraphicsWindow at the specified position.
+
+## Controls.GetTextBoxText(System.String)
+Gets the text from the specified textbox.
+
+## Controls.SetTextBoxText(System.String,System.String)
+Sets the text in the specified textbox.
+
+## Controls.Move(System.String,System.Int32,System.Int32)
+Moves the specified control to the given coordinates.
+
+## Controls.SetSize(System.String,System.Int32,System.Int32)
+Sets the size of the specified control.
+
+## Desktop
+Provides methods and properties for interacting with the desktop environment,
+            such as retrieving the desktop dimensions and setting the wallpaper.
+
+## Desktop.Width
+Gets the width of the primary screen (desktop) in pixels.
+
+## Desktop.Height
+Gets the height of the primary screen (desktop) in pixels.
+
+## Desktop.SetWallpaper(System.String)
+Sets the desktop wallpaper to the specified file path or URL.
+
+## File
+Provides methods for file and directory operations, such as reading, writing, copying, and deleting files.
+
+## File.LastError
+Stores the last error message, if any operation fails.
+
+## File.ReadContents(System.String)
+Reads the entire contents of a file.
+
+## File.WriteContents(System.String,System.String)
+Writes the specified contents to a file, overwriting the file if it exists.
+
+## File.ReadLine(System.String,System.Int32)
+Reads a specific line from a file.
+
+## File.WriteLine(System.String,System.Int32,System.String)
+Writes a specific line in the file.
+
+## File.InsertLine(System.String,System.Int32,System.String)
+Inserts a line into the file at the specified line number.
+
+## File.AppendContents(System.String,System.String)
+Appends contents to the end of a file.
+
+## File.CopyFile(System.String,System.String)
+Copies a file from the source path to the destination path.
+
+## File.DeleteFile(System.String)
+Deletes the specified file.
+
+## File.CreateDirectory(System.String)
+Creates a new directory at the specified path.
+
+## File.DeleteDirectory(System.String)
+Deletes the specified directory and all its contents.
+
+## File.GetFiles(System.String)
+Retrieves all file paths in the specified directory.
+
+## File.GetDirectories(System.String)
+Retrieves all directory paths in the specified directory.
+
+## GraphicsWindow
+Provides methods and properties to create and manage a graphics window where users can draw shapes,
+            handle input events, and customize the visual appearance of the window.
+
+## GraphicsWindow.KeyDown
+Occurs when a key is pressed while the graphics window has focus.
+
+## GraphicsWindow.KeyUp
+Occurs when a key is released while the graphics window has focus.
+
+## GraphicsWindow.MouseDown
+Occurs when the mouse button is pressed down in the graphics window.
+
+## GraphicsWindow.MouseUp
+Occurs when the mouse button is released in the graphics window.
+
+## GraphicsWindow.MouseMove
+Occurs when the mouse is moved within the graphics window.
+
+## GraphicsWindow.Width
+Gets or sets the width of the graphics window.
+
+## GraphicsWindow.Height
+Gets or sets the height of the graphics window.
+
+## GraphicsWindow.Show
+Displays the graphics window. Initializes the window if it hasn't been created yet.
+
+## GraphicsWindow.Hide
+Hides the graphics window.
+
+## GraphicsWindow.BackgroundColor
+Gets or sets the background color of the graphics window.
+
+## GraphicsWindow.PenColor
+Gets or sets the pen color for drawing shapes.
+
+## GraphicsWindow.BrushColor
+Gets or sets the brush color used for filling shapes.
+
+## GraphicsWindow.PenWidth
+Gets or sets the width of the pen used for drawing shapes.
+
+## GraphicsWindow.FontName
+Gets or sets the name of the font used for drawing text.
+
+## GraphicsWindow.FontSize
+Gets or sets the size of the font used for drawing text.
+
+## GraphicsWindow.DrawRectangle(System.Int32,System.Int32,System.Int32,System.Int32)
+Draws a rectangle at the specified coordinates with the given dimensions.
+
+## GraphicsWindow.FillRectangle(System.Int32,System.Int32,System.Int32,System.Int32)
+Fills a rectangle at the specified coordinates with the given dimensions.
+
+## GraphicsWindow.DrawEllipse(System.Int32,System.Int32,System.Int32,System.Int32)
+Draws an ellipse at the specified coordinates with the given dimensions.
+
+## GraphicsWindow.FillEllipse(System.Int32,System.Int32,System.Int32,System.Int32)
+Fills an ellipse at the specified coordinates with the given dimensions.
+
+## GraphicsWindow.DrawText(System.Int32,System.Int32,System.String)
+Draws text at the specified coordinates.
+
+## GraphicsWindow.Clear
+Clears the graphics window, filling it with the background color.
+
+## GraphicsWindow.CanResize
+Gets or sets whether the graphics window can be resized by the user.
+
+## ImageList
+Provides methods to load, store, and retrieve images from local files or URLs.
+
+## ImageList.LoadImage(System.String)
+Loads an image from a file path or a URL.
+
+## ImageList.GetWidthOfImage(System.String)
+Retrieves the width of the stored image.
+
+## ImageList.GetHeightOfImage(System.String)
+Retrieves the height of the stored image.
+
+## ImageList.GetImageByName(System.String)
+Retrieves the image by its name.
+
+## Math
+Provides mathematical functions and constants, including basic arithmetic operations,
+            trigonometric functions, and random number generation.
+
+## Math.Pi
+Gets the value of Pi (π).
+
+## Math.Abs(System.Object)
+Returns the absolute value of a number.
+
+## Math.Ceiling(System.Object)
+Returns the smallest integer greater than or equal to the specified number.
+
+## Math.Floor(System.Object)
+Returns the largest integer less than or equal to the specified number.
+
+## Math.NaturalLog(System.Object)
+Returns the natural logarithm (base e) of a number.
+
+## Math.Log(System.Object)
+Returns the base-10 logarithm of a number.
+
+## Math.Cos(System.Object)
+Returns the cosine of the specified angle (in radians).
+
+## Math.Sin(System.Object)
+Returns the sine of the specified angle (in radians).
+
+## Math.Tan(System.Object)
+Returns the tangent of the specified angle (in radians).
+
+## Math.ArcSin(System.Object)
+Returns the arcsine of the specified sine value, in radians.
+
+## Math.ArcCos(System.Object)
+Returns the arccosine of the specified cosine value, in radians.
+
+## Math.ArcTan(System.Object)
+Returns the arctangent of the specified tangent value, in radians.
+
+## Math.GetDegrees(System.Object)
+Converts the specified angle from radians to degrees.
+
+## Math.GetRadians(System.Object)
+Converts the specified angle from degrees to radians.
+
+## Math.SquareRoot(System.Object)
+Returns the square root of the specified number.
+
+## Math.Power(System.Object,System.Object)
+Returns a specified number raised to the specified power.
+
+## Math.Round(System.Object)
+Rounds the specified number to the nearest integer.
+
+## Math.Max(System.Object,System.Object)
+Returns the greater of two numbers.
+
+## Math.Min(System.Object,System.Object)
+Returns the smaller of two numbers.
+
+## Math.Remainder(System.Object,System.Object)
+Returns the remainder of division of two numbers.
+
+## Math.GetRandomNumber(System.Object)
+Generates a random number between 1 and the specified maximum number.
+
+## Math.DoubleToDecimal(System.Object)
+Converts a double-precision floating-point number to a decimal.
+
+## Mouse
+Provides methods and properties for interacting with the mouse,
+            including getting or setting the mouse position, checking button states, and controlling cursor visibility.
+
+## Mouse.MouseX
+Gets or sets the X coordinate of the mouse cursor on the screen.
+
+## Mouse.SetMouseX(System.Int32)
+Gets or sets the X coordinate of the mouse cursor on the screen.
+
+## Mouse.GetMouseY
+Gets or sets the Y coordinate of the mouse cursor on the screen.
+
+## Mouse.SetMouseY(System.Int32)
+Gets or sets the Y coordinate of the mouse cursor on the screen.
+
+## Mouse.IsLeftButtonDown
+Gets a value indicating whether the left mouse button is currently pressed.
+
+## Mouse.IsRightButtonDown
+Gets a value indicating whether the right mouse button is currently pressed.
+
+## Mouse.HideCursor
+Hides the mouse cursor from the screen.
+
+## Mouse.ShowCursor
+Shows the mouse cursor on the screen.
+
+## Network
+Provides methods to perform network operations, such as downloading files and retrieving web page contents.
+
+## Network.DownloadFile(System.String,System.String)
+Downloads a file from the specified URL and saves it to the provided file path.
+
+## Network.GetWebPageContents(System.String)
+Retrieves the contents of a web page as a string.
+
+## Program
+Provides methods and properties related to the execution of the program, including command-line argument handling,
+            delays, and termination.
+
+## Program.ArgumentCount
+Gets the number of command-line arguments passed to the program (excluding the program name).
+
+## Program.Directory
+Gets the directory where the program is being executed.
+
+## Program.Delay(System.Int32)
+Delays the program execution for the specified number of milliseconds.
+
+## Program.Sleep(System.Int32)
+Pauses the program execution for the specified number of seconds. The sleep can be interrupted by a key press.
+
+## Program.End
+Ends the program execution immediately.
+
+## Program.GetArgument(System.Int32)
+Retrieves the command-line argument at the specified index.
+
+## Shapes
+Provides methods to create and manipulate shapes in the GraphicsWindow, including adding rectangles, ellipses,
+            triangles, lines, and images, as well as performing operations like rotation and zoom.
+
+## Shapes.AddRectangle(System.Int32,System.Int32)
+Adds a rectangle to the GraphicsWindow with the specified width and height.
+
+## Shapes.AddEllipse(System.Int32,System.Int32)
+Adds an ellipse to the GraphicsWindow with the specified width and height.
+
+## Shapes.AddTriangle(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)
+Adds a triangle to the GraphicsWindow defined by three sets of coordinates.
+
+## Shapes.AddLine(System.Int32,System.Int32,System.Int32,System.Int32)
+Adds a line to the GraphicsWindow defined by two sets of coordinates.
+
+## Shapes.AddImage(System.String)
+Adds an image to the GraphicsWindow using the specified image name from the ImageList.
+
+## Shapes.Rotate(System.String,System.Single)
+Rotates the specified shape or image by the given angle.
+
+## Shapes.Zoom(System.String,System.Single,System.Single)
+Resizes (zooms) the specified shape by scaling its width and height.
+
+## Shapes.RotateImage(System.Drawing.Image,System.Single)
+Rotates the specified image by the given angle.
+
+## Shapes.ApplyRotation(System.Drawing.Graphics,System.String,System.Int32,System.Int32)
+Applies the rotation to non-image shapes before drawing them.
+
+## Sound
+Provides methods for playing system sounds and audio files, as well as controlling playback such as stopping, pausing, and waiting for playback to complete.
+
+## Sound.PlayClick
+Plays the system click sound (Asterisk).
+
+## Sound.PlayClickAndWait
+Plays the system click sound (Asterisk) and waits for approximately 1 second.
+
+## Sound.PlayChime
+Plays the system chime sound (Beep).
+
+## Sound.PlayChimeAndWait
+Plays the system chime sound (Beep) and waits for approximately 1 second.
+
+## Sound.PlayChimes
+Plays the system chimes sound (Exclamation).
+
+## Sound.PlayChimesAndWait
+Plays the system chimes sound (Exclamation) and waits for approximately 1 second.
+
+## Sound.PlayBellRing
+Plays the system bell ring sound (Hand).
+
+## Sound.PlayBellRingAndWait
+Plays the system bell ring sound (Hand) and waits for approximately 1 second.
+
+## Sound.Play(System.String)
+Plays an audio file from the specified file path.
+
+## Sound.PlayAndWait(System.String)
+Plays an audio file from the specified file path and waits for the audio to finish playing.
+
+## Sound.Stop
+Stops the playback of an audio file.
+
+## Sound.Pause
+Pauses the playback of an audio file.
+
+## Stack
+Provides methods to create and manage multiple stacks, identified by name, allowing values to be pushed and popped.
+
+## Stack.PushValue(System.String,System.Object)
+Pushes a value onto the specified stack. If the stack does not exist, it is created.
+
+## Stack.GetCount(System.String)
+Gets the number of items in the specified stack.
+
+## Stack.PopValue(System.String)
+Pops the top value from the specified stack.
+
+## Text
+Provides methods for performing text manipulations such as concatenation, searching, case conversion, and substring operations.
+
+## Text.Append(System.String,System.String)
+Appends two text inputs and returns the result.
+
+## Text.GetLength(System.String)
+Gets the length of the given text.
+
+## Text.IsSubText(System.String,System.String)
+Checks if subText is part of the main text.
+
+## Text.EndsWith(System.String,System.String)
+Checks if the text ends with the specified subText.
+
+## Text.StartsWith(System.String,System.String)
+Checks if the text starts with the specified subText.
+
+## Text.GetSubText(System.String,System.Int32,System.Int32)
+Gets a substring from the given text, starting at a specified position and with the given length.
+
+## Text.GetSubTextToEnd(System.String,System.Int32)
+Gets a substring from the given text, starting at a specified position and extending to the end of the text.
+
+## Text.GetIndexOf(System.String,System.String)
+Finds the position where subText first appears in the main text.
+
+## Text.ConvertToLowerCase(System.String)
+Converts the given text to lowercase.
+
+## Text.ConvertToUpperCase(System.String)
+Converts the given text to uppercase.
+
+## Text.GetCharacter(System.Int32)
+Gets a character corresponding to the specified Unicode code.
+
+## Text.GetCharacterCode(System.Char)
+Gets the Unicode code for the specified character.
+
+## TextWindow
+Provides methods and properties for interacting with the console text window, including window manipulation, cursor control, and reading/writing text.
+
+## TextWindow.ForegroundColor
+Gets or sets the foreground color of the text in the console window.
+
+## TextWindow.BackgroundColor
+Gets or sets the background color of the console window.
+
+## TextWindow.CursorLeft
+Gets or sets the cursor's column position.
+
+## TextWindow.CursorTop
+Gets or sets the cursor's row position.
+
+## TextWindow.Title
+Gets or sets the title of the console window.
+
+## TextWindow.Show
+Shows and restores the text window if it is minimized or hidden.
+
+## TextWindow.Hide
+Hides the text window.
+
+## TextWindow.Clear
+Clears all the content of the console text window.
+
+## TextWindow.Pause
+Pauses execution and waits for user input, displaying a message.
+
+## TextWindow.PauseIfVisible
+Pauses if the text window is visible, displaying a message.
+
+## TextWindow.PauseWithoutMessage
+Pauses execution without displaying a message, waiting for a key press.
+
+## TextWindow.Read
+Reads a line of text from the console window.
+
+## TextWindow.ReadKey
+Reads a single key press from the console window.
+
+## TextWindow.ReadNumber
+Reads a number from the console window.
+
+## TextWindow.WriteLine(System.Object)
+Writes data to the console window, followed by a new line.
+
+## TextWindow.Write(System.Object)
+Writes data to the console window without appending a new line.
+
+## TextWindow.VerifyAccess
+Simulates verifying access to the text window.
+
+## Timer
+Provides functionality for creating and controlling a timer, including setting intervals, pausing, and resuming the timer.
+
+## Timer.Tick
+Event that is triggered when the timer ticks based on the specified interval.
+
+## Timer.Interval
+Gets or sets the interval for the timer in milliseconds. The interval must be between 10 and 100,000,000 milliseconds.
+
+## Timer.#cctor
+Static constructor to initialize the timer and set the Elapsed event handler.
+
+## Timer.Resume
+Starts or resumes the timer.
+
+## Timer.Pause
+Pauses the timer if it is currently running.
+
+## Timer.OnTimerElapsed(System.Object,System.Timers.ElapsedEventArgs)
+Event handler that is triggered when the timer's Elapsed event occurs.
+            This method invokes the
+
