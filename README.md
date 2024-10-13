@@ -78,3 +78,5 @@ namespace SmallBasicOpenEditionDll
 ```
 
 **Note:** I work with this while I am working with two job's and such, so this will not more forward in fast speed. Help is appreciated here. Let me know :)
+
+If you download this project, make sure your paths at **SmallBasicOpenEditionDll.csproj** are adjusted correctly.
