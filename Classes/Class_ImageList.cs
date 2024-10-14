@@ -93,7 +93,7 @@ namespace SmallBasicOpenEditionDll
 
         /* 
          * Retrieves the image object by its name.
-         * This is done since Shapes has method that needs this.
+         * This is done since class Shapes has method that needs this.
          * */
         public static Image GetImageByName(string imageName)
         {
