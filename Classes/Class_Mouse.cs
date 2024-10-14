@@ -20,22 +20,22 @@ namespace SmallBasicOpenEditionDll
         private static extern int ShowCursor(bool bShow);
 
         /// <summary>Gets or sets the X coordinate of the mouse cursor on the screen.</summary>
-        public static dynamic MouseX
+        public static int MouseX
         {
             get => Cursor.Position.X;
             set => Cursor.Position = new System.Drawing.Point(value, Cursor.Position.Y);
         }
 
         /// <summary>Gets or sets the Y coordinate of the mouse cursor on the screen.</summary>
-        public static dynamic MouseY
+        public static int MouseY
         {
             get => Cursor.Position.Y;
             set => Cursor.Position = new System.Drawing.Point(Cursor.Position.X, value);
         }
 
-        public static dynamic IsLeftButtonDown => Control.MouseButtons.HasFlag(MouseButtons.Left);
+        public static bool IsLeftButtonDown => Control.MouseButtons.HasFlag(MouseButtons.Left);
 
-        public static dynamic IsRightButtonDown => Control.MouseButtons.HasFlag(MouseButtons.Right);
+        public static bool IsRightButtonDown => Control.MouseButtons.HasFlag(MouseButtons.Right);
 
         public static void HideCursor() => ShowCursor(false);
 

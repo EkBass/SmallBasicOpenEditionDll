@@ -3,8 +3,7 @@
  * Language: C#
  * File: Class_Text.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
- * Last date: 13th October 2024
- * License: See license.txt
+  * License: See license.txt
  * 
  * Description:
  * Provides methods for performing text manipulations such as concatenation, searching, case conversion, and substring operations.
@@ -20,6 +19,20 @@ namespace SmallBasicOpenEditionDll
     /// </summary>
     public static class Text
     {
+        // Backing field for LastError
+        private static string? _lastError;
+
+        /// <summary>Stores the last error message, if any operation fails.</summary>
+        public static string? LastError
+        {
+            get => _lastError;
+            private set
+            {
+                // Add a timestamp in "yyyy-MM-dd HH:mm:ss" format before the error message
+                _lastError = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {value}";
+            }
+        }
+
         /// <summary>Appends two text inputs and returns the result.</summary>
         /// <param name="text1">The first text input.</param>
         /// <param name="text2">The second text input to append.</param>
@@ -96,5 +109,9 @@ namespace SmallBasicOpenEditionDll
         /// <param name="text">The text to invert.</param>
         /// <returns>Inverted text.</returns>
         public static string InvertText(string text) => new(text.Reverse().ToArray());
+
+        /// <summary>Converts number as string. 123 > "123"</summary>
+        /// <param name="text">The text to convert.</param>
+        public static string Str(int number) => number.ToString();
     }
 }

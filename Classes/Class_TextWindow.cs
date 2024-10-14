@@ -15,28 +15,42 @@ using System;
 namespace SmallBasicOpenEditionDll
 {
     public static class TextWindow
-{
-    // PInvoke constants for window states
-    private const int SW_HIDE = 0;
-    //private const int SW_SHOW = 5;
-    //private const int SW_MINIMIZE = 6;
-    //private const int SW_MAXIMIZE = 3;
-    private const int SW_RESTORE = 9;
+    {
+        // Backing field for LastError
+        private static string? _lastError;
 
-    // PInvoke function for ShowWindow
-    [DllImport("user32.dll")]
-        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        /// <summary>Stores the last error message, if any operation fails.</summary>
+        public static string? LastError
+        {
+            get => _lastError;
+            private set
+            {
+                // Add a timestamp in "yyyy-MM-dd HH:mm:ss" format before the error message
+                _lastError = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {value}";
+            }
+        }
 
-    // PInvoke function to check the window's visibility
-    [DllImport("user32.dll")]
-        private static extern bool IsWindowVisible(IntPtr hWnd);
+        // PInvoke constants for window states
+        private const int SW_HIDE = 0;
+        //private const int SW_SHOW = 5;
+        //private const int SW_MINIMIZE = 6;
+        //private const int SW_MAXIMIZE = 3;
+        private const int SW_RESTORE = 9;
 
-    // PInvoke function for getting the console window handle
-    [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern IntPtr GetConsoleWindow();
+        // PInvoke function for ShowWindow
+        [DllImport("user32.dll")]
+            private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
-    private static ConsoleColor _foregroundColor = Console.ForegroundColor;
-    private static ConsoleColor _backgroundColor = Console.BackgroundColor;
+        // PInvoke function to check the window's visibility
+        [DllImport("user32.dll")]
+            private static extern bool IsWindowVisible(IntPtr hWnd);
+
+        // PInvoke function for getting the console window handle
+        [DllImport("kernel32.dll", SetLastError = true)]
+            private static extern IntPtr GetConsoleWindow();
+
+        private static ConsoleColor _foregroundColor = Console.ForegroundColor;
+        private static ConsoleColor _backgroundColor = Console.BackgroundColor;
 
         /// <summary>Gets or sets the foreground color of the text in the console window.</summary>
         public static ConsoleColor ForegroundColor
@@ -83,17 +97,37 @@ namespace SmallBasicOpenEditionDll
         }
 
         /// <summary>Shows and restores the text window if it is minimized or hidden.</summary>
-        public static void Show()
+        public static bool Show()
         {
-            IntPtr handle = GetConsoleWindow();
-            ShowWindow(handle, SW_RESTORE);
+            try
+            { 
+                IntPtr handle = GetConsoleWindow();
+                ShowWindow(handle, SW_RESTORE);
+                LastError = null;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LastError = ex.Message;
+                return false;
+            }
         }
 
         /// <summary>Hides the text window.</summary>
-        public static void Hide()
+        public static bool Hide()
         {
-            IntPtr handle = GetConsoleWindow();
-            ShowWindow(handle, SW_HIDE);
+            try 
+            { 
+                IntPtr handle = GetConsoleWindow();
+                ShowWindow(handle, SW_HIDE);
+                LastError = null;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LastError = ex.Message;
+                return false;
+            }
         }
 
         /// <summary>Clears all the content of the console text window.</summary>
@@ -107,16 +141,14 @@ namespace SmallBasicOpenEditionDll
         }
 
         /// <summary>Pauses if the text window is visible, displaying a message.</summary>
-        public static bool PauseIfVisible()
+        public static void PauseIfVisible()
         {
             IntPtr consoleHandle = GetConsoleWindow();
             if (consoleHandle != IntPtr.Zero && IsWindowVisible(consoleHandle))
             {
                 Console.WriteLine("Press any key to continue...");
                 Console.ReadKey();
-                return true;
             }
-            return false;
         }
 
         /// <summary>Pauses execution without displaying a message, waiting for a key press.</summary>
@@ -141,7 +173,11 @@ namespace SmallBasicOpenEditionDll
                 {
                     return number;
                 }
-                Console.WriteLine("Invalid number, please try again.");
+                else
+                {
+                    LastError = "Invalid number received.";
+                    return false;
+                }
             }
         }
 

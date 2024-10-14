@@ -3,7 +3,6 @@
  * Language: C#
  * File: Class_Timer.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
- * Last date: 12th October 2024
  * License: See license.txt
  * 
  * Description:
@@ -18,6 +17,20 @@ namespace SmallBasicOpenEditionDll
     /// <summary>Provides functionality for creating and controlling a timer, including setting intervals, pausing, and resuming the timer.</summary>
     public static class Timer
     {
+        // Backing field for LastError
+        private static string? _lastError;
+
+        /// <summary>Stores the last error message, if any operation fails.</summary>
+        public static string? LastError
+        {
+            get => _lastError;
+            private set
+            {
+                // Add a timestamp in "yyyy-MM-dd HH:mm:ss" format before the error message
+                _lastError = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {value}";
+            }
+        }
+
         private static System.Timers.Timer _timer = new();
         private static bool _isPaused = false;
 
@@ -26,7 +39,6 @@ namespace SmallBasicOpenEditionDll
 
         /// <summary>Gets or sets the interval for the timer in milliseconds. The interval must be between 10 and 100,000,000 milliseconds.</summary>
         /// <value>The interval for the timer in milliseconds.</value>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when the interval is outside the valid range (10 to 100,000,000 milliseconds).</exception>
         public static dynamic Interval
         {
             get => _timer.Interval;
@@ -34,9 +46,11 @@ namespace SmallBasicOpenEditionDll
             {
                 if (value < 10 || value > 100000000)
                 {
-                    throw new ArgumentOutOfRangeException("Interval must be between 10 and 100000000 milliseconds.");
+                    LastError = "Interval must be between 10 and 100000000 milliseconds.";
+                    LastError = "Timer error. Interval invalid: " + value;
                 }
                 _timer.Interval = value;
+                LastError = null;
             }
         }
 
@@ -69,6 +83,37 @@ namespace SmallBasicOpenEditionDll
                 _isPaused = true;
                 _timer.Stop();
             }
+        }
+
+        /// <summary>Stops the timer completely, resetting its state.</summary>
+        public static void Stop()
+        {
+            _isPaused = false;
+            _timer.Stop();
+        }
+
+        /// <summary>Checks if the timer is currently running.</summary>
+        public static bool IsRunning()
+        {
+            return _timer.Enabled && !_isPaused;
+        }
+
+        /// <summary>Executes the timer only once after the specified delay (in milliseconds).</summary>
+        /// <param name="delay">The delay in milliseconds before the timer elapses.</param>
+        public static void ExecuteOnce(int delay)
+        {
+            if (delay < 10 || delay > 100000000)
+            {
+                LastError = "Delay must be between 10 and 100000000 milliseconds.";
+                return;
+            }
+
+            // Stop any existing timer activities and configure for one-time execution
+            Stop();
+
+            _timer.Interval = delay;
+            _timer.AutoReset = false;  // Only trigger once
+            _timer.Start();
         }
 
         /// <summary>Event handler that is triggered when the timer's Elapsed event occurs. This method invokes the <see cref="Tick"/> event.</summary>

@@ -22,6 +22,20 @@ namespace SmallBasicOpenEditionDll
     /// </summary>
     public static class Sound
     {
+        // Backing field for LastError
+        private static string? _lastError;
+
+        /// <summary>Stores the last error message, if any operation fails.</summary>
+        public static string? LastError
+        {
+            get => _lastError;
+            private set
+            {
+                // Add a timestamp in "yyyy-MM-dd HH:mm:ss" format before the error message
+                _lastError = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {value}";
+            }
+        }
+
         private static MediaPlayer mediaPlayer = new();
         private static bool isPlaying = false;
 
@@ -67,7 +81,7 @@ namespace SmallBasicOpenEditionDll
 
         /// <summary>Plays an audio file from the specified file path.</summary>
         /// <param name="filePath">The file path of the audio to play (supports local and network paths).</param>
-        public static void Play(string filePath)
+        public static bool Play(string filePath)
         {
             try
             {
@@ -79,16 +93,19 @@ namespace SmallBasicOpenEditionDll
                 mediaPlayer.Open(new Uri((string)filePath, UriKind.RelativeOrAbsolute));
                 mediaPlayer.Play();
                 isPlaying = true;
+                LastError = null;
+                return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error playing file: " + ex.Message);
+                LastError = ex.Message;
+                return false;
             }
         }
 
         /// <summary>Plays an audio file from the specified file path and waits for the audio to finish playing.</summary>
         /// <param name="filePath">The file path of the audio to play (supports local and network paths).</param>
-        public static void PlayAndWait(string filePath)
+        public static bool PlayAndWait(string filePath)
         {
             try
             {
@@ -120,17 +137,20 @@ namespace SmallBasicOpenEditionDll
                 mediaPlayer.Stop();
                 mediaPlayer.Close();
                 isPlaying = false;
+                LastError = null;
+                return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error playing file: " + ex.Message);
+                LastError = ex.Message;
+                return false;
             }
         }
 
         /// <summary>
         /// Stops the playback of an audio file.
         /// </summary>
-        public static void Stop()
+        public static bool Stop()
         {
             try
             {
@@ -139,26 +159,32 @@ namespace SmallBasicOpenEditionDll
                     mediaPlayer.Stop();
                     mediaPlayer.Close();
                     isPlaying = false;
+                    LastError = null;
                 }
+                return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error stopping file: " + ex.Message);
+                LastError = "Error stopping file: " + ex.Message;
+                return false;
             }
         }
 
         /// <summary>
         /// Pauses the playback of an audio file.
         /// </summary>
-        public static void Pause()
+        public static bool Pause()
         {
             try
             {
                 mediaPlayer.Pause();
+                LastError = null;
+                return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error pausing file: " + ex.Message);
+                LastError = "Error pausing file: " + ex.Message;
+                return false;
             }
         }
     }

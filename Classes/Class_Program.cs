@@ -17,9 +17,24 @@ namespace SmallBasicOpenEditionDll
     /// <summary>Provides methods and properties related to the execution of the program, including command-line argument handling, delays, and termination.</summary>
     public static class Program
     {
+
+                // Backing field for LastError
+        private static string? _lastError;
+
+        /// <summary>Stores the last error message, if any operation fails.</summary>
+        public static string? LastError
+        {
+            get => _lastError;
+            private set
+            {
+                // Add a timestamp in "yyyy-MM-dd HH:mm:ss" format before the error message
+                _lastError = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {value}";
+            }
+        }
+
         /// <summary>Gets the number of command-line arguments passed to the program (excluding the program name).</summary>
         /// <value>The number of command-line arguments.</value>
-        public static int ArgumentCount => Environment.GetCommandLineArgs().Length - 1;
+        public static int ArgumentCount() => Environment.GetCommandLineArgs().Length - 1;
 
         /// <summary>Gets the directory where the program is being executed.</summary>
         /// <value>The base directory of the program.</value>
@@ -51,9 +66,17 @@ namespace SmallBasicOpenEditionDll
         /// <summary>Retrieves the command-line argument at the specified index.</summary>
         /// <param name="index">The index of the command-line argument to retrieve (0-based).</param>
         /// <returns>The command-line argument at the specified index.</returns>
-        /// <exception cref="IndexOutOfRangeException">Thrown if the index is out of range of the command-line arguments.</exception>
-        public static string GetArgument(int index)
+        public static string? GetArgument(int index)
         {
+            int foo = ArgumentCount();
+
+            if(index <= 0 || index > foo)
+            {
+                LastError = "Invalid argument index.";
+                return null;
+            }
+            
+            LastError = null;
             string[] args = Environment.GetCommandLineArgs();
             return index < 0 || index >= args.Length ? "" : args[index];
         }

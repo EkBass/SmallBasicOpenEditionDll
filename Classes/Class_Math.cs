@@ -20,6 +20,20 @@ namespace SmallBasicOpenEditionDll
     /// </summary>
     public static class Math
     {
+        // Backing field for LastError
+        private static string? _lastError;
+
+        /// <summary>Stores the last error message, if any operation fails.</summary>
+        public static string? LastError
+        {
+            get => _lastError;
+            private set
+            {
+                // Add a timestamp in "yyyy-MM-dd HH:mm:ss" format before the error message
+                _lastError = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {value}";
+            }
+        }
+
         private static readonly Random random = new(); // Reuse a single instance
 
         /// <summary>Gets the value of Pi</summary>
@@ -136,5 +150,35 @@ namespace SmallBasicOpenEditionDll
         /// <param name="number">A double-precision floating-point number to convert.</param>
         /// <returns>The equivalent decimal representation of the specified number.</returns>
         public static decimal DoubleToDecimal(double number) => Convert.ToDecimal(number);
+
+        /// <summary>Returns boolean true or false randomly.</summary>
+        /// <returns>true or false</returns>
+        public static bool GetRandomBoolean()
+        {
+            return random.Next(2) == 0; // Generates 0 or 1, and returns true if 0, false if 1
+        }
+
+        /// <summary>Returns random string.</summary>
+        /// <param name="length">Positive integer to express the size of requested random string.</param>
+        /// <returns>true or false</returns>
+        public static string? GetRandomString(int length)
+        {
+            if (length <= 0)
+            {
+                LastError = "Invalid parameter passed for GetRandomString: '" + length + "'. Positive integer expected.";
+                return null;
+            }
+
+            LastError = null;
+            const string printableChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\"!@#$%^&*()_+-=[]{}|;:',.<>?/`~";
+            char[] result = new char[length];
+
+            for (int i = 0; i < length; i++)
+            {
+                result[i] = printableChars[random.Next(printableChars.Length)];
+            }
+
+            return new string(result);
+        }
     }
 }
