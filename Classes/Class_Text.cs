@@ -66,7 +66,7 @@ namespace SmallBasicOpenEditionDll
         /// <param name="text">The main text to search within.</param>
         /// <param name="subText">The text to find within the main text.</param>
         /// <returns>The 1-based index of the first occurrence of subText within the main text, or 0 if not found.</returns>
-        public static int GetIndexOf(string text, string subText)
+        public static dynamic GetIndexOf(dynamic text, dynamic subText)
         {
             int index = text.IndexOf(subText);
             return index >= 0 ? index + 1 : 0;  // Return 0 if not found (1-based index)

@@ -56,7 +56,7 @@ namespace SmallBasicOpenEditionDll
         /// <returns>The contents of the web page as a string, or an empty string if the request fails.</returns>
         public static string GetWebPageContents(string url)
         {
-            return = GetWebPageContents2(url).GetAwaiter().GetResult();
+            return GetWebPageContents2(url).GetAwaiter().GetResult();
         }
         private static async Task<string> GetWebPageContents2(string url)
         {
