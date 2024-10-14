@@ -26,9 +26,7 @@ namespace SmallBasicOpenEditionDll
         private static extern int ShowCursor(bool bShow);
 
         /// <summary>Gets or sets the X coordinate of the mouse cursor on the screen.</summary>
-        /// <returns>
-        /// The X coordinate of the mouse cursor in pixels.
-        /// </returns>
+        /// <returns>The X coordinate of the mouse cursor in pixels.</returns>
         public static dynamic MouseX => Cursor.Position.X;
 
         /// <summary>Gets or sets the X coordinate of the mouse cursor on the screen.</summary>
@@ -38,27 +36,19 @@ namespace SmallBasicOpenEditionDll
         public static void SetMouseX(dynamic value) => Cursor.Position = new System.Drawing.Point(value, Cursor.Position.Y);
 
         /// <summary>Gets or sets the Y coordinate of the mouse cursor on the screen.</summary>
-        /// <returns>
-        /// The Y coordinate of the mouse cursor in pixels.
-        /// </returns>
+        /// <returns>The Y coordinate of the mouse cursor in pixels.</returns>
         public static dynamic GetMouseY() => Cursor.Position.Y;
 
         /// <summary>Gets or sets the Y coordinate of the mouse cursor on the screen.</summary>
-        /// <param name="value">
-        /// The Y coordinate of the mouse cursor in pixels.
-        /// </param>
+        /// <param name="value">The Y coordinate of the mouse cursor in pixels.</param>
         public static void SetMouseY(dynamic value) => Cursor.Position = new System.Drawing.Point(Cursor.Position.X, value);
 
         /// <summary>Gets a value indicating whether the left mouse button is currently pressed.</summary>
-        /// <value>
-        /// <c>true</c> if the left mouse button is down; otherwise, <c>false</c>.
-        /// </value>
+        /// <value><c>true</c> if the left mouse button is down; otherwise, <c>false</c>.</value>
         public static dynamic IsLeftButtonDown => Control.MouseButtons.HasFlag(MouseButtons.Left);
 
         /// <summary>Gets a value indicating whether the right mouse button is currently pressed.</summary>
-        /// <value>
-        /// <c>true</c> if the right mouse button is down; otherwise, <c>false</c>.
-        /// </value>
+        /// <value><c>true</c> if the right mouse button is down; otherwise, <c>false</c>.</value>
         public static dynamic IsRightButtonDown => Control.MouseButtons.HasFlag(MouseButtons.Right);
 
         /// <summary>Hides the mouse cursor from the screen.</summary>

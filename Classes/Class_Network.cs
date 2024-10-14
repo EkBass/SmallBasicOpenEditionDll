@@ -25,13 +25,19 @@ namespace SmallBasicOpenEditionDll
         // HttpClient instance (should be reused for better performance)
         private static readonly HttpClient httpClient = new();
 
+        /// <summary>Downloads a file from the specified URL and saves it to the provided file path.</summary>
+        /// <param name="fileName">The path where the downloaded file will be saved.</param>
+        /// <param name="url">The URL of the file to download.</param>
+        /// <returns>The path to the saved file, or an empty string if the download fails.</returns>
+        public static dynamic DownloadFile(dynamic fileName, dynamic url) => DownloadFile2(fileName, url).GetAwaiter().GetResult();
+
         private static async Task<string> DownloadFile2(string fileName, string url)
         {
             try
             {
                 // Download the file as a stream
-                using (Stream fileStream = await httpClient.GetStreamAsync(url))
-                using (FileStream fs = new(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
+                using (Stream fileStream = await httpClient.GetStreamAsync((string)url))
+                using (FileStream fs = new((string)fileName, FileMode.Create, FileAccess.Write, FileShare.None))
                 {
                     // Copy the file stream to the file
                     await fileStream.CopyToAsync(fs);
@@ -46,7 +52,15 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-        public static async Task<string> GetWebPageContents2(string url)
+        /// <summary>Retrieves the contents of a web page as a string.</summary>
+        /// <param name="url">The URL of the web page to retrieve.</param>
+        /// <returns>The contents of the web page as a string, or an empty string if the request fails.</returns>
+        public static dynamic GetWebPageContents(dynamic url)
+        {
+            dynamic content = GetWebPageContents2((string)url).GetAwaiter().GetResult();
+            return content;
+        }
+        private static async Task<string> GetWebPageContents2(string url)
         {
             try
             {
@@ -58,29 +72,6 @@ namespace SmallBasicOpenEditionDll
                 Console.WriteLine("Failed to retrieve web page: " + ex.Message);
                 return "";
             }
-        }
-
-        /// <summary>Downloads a file from the specified URL and saves it to the provided file path.</summary>
-        /// <param name="fileName">The path where the downloaded file will be saved.</param>
-        /// <param name="url">The URL of the file to download.</param>
-        /// <returns>The path to the saved file, or an empty string if the download fails.</returns>
-        public static dynamic DownloadFile(dynamic fileName, dynamic url)
-        {
-            dynamic content = DownloadFile2((string)fileName, (string)url).GetAwaiter().GetResult();
-            return content;
-        }
-
-
-        /// <summary>Retrieves the contents of a web page as a string.</summary>
-        /// <param name="url">The URL of the web page to retrieve.</param>
-        /// <returns>
-        /// The contents of the web page as a string, 
-        /// or an empty string if the request fails.
-        /// </returns>
-        public static dynamic GetWebPageContents(dynamic url)
-        {
-            dynamic content = GetWebPageContents2((string)url).GetAwaiter().GetResult();
-            return content;
         }
     }
 }

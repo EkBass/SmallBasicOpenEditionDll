@@ -24,24 +24,21 @@ namespace SmallBasicOpenEditionDll
     /// </summary>
     public static class Shapes
     {
-        private static Dictionary<string, Control> shapes = new();
-        private static Dictionary<string, float> shapeRotations = new();
+        private static Dictionary<string, Control> shapes = [];
+        private static Dictionary<string, float> shapeRotations = [];
         private static int shapeCounter = 0;
         private static Form? graphicsForm = GraphicsWindow.graphicsForm;
 
-        /// <summary>
-        /// Adds a rectangle to the GraphicsWindow with the specified width and height.
-        /// </summary>
+        /// <summary>Adds a rectangle to the GraphicsWindow with the specified width and height.</summary>
         /// <param name="width">The width of the rectangle.</param>
         /// <param name="height">The height of the rectangle.</param>
         /// <returns>The name of the created rectangle shape.</returns>
-        public static string AddRectangle(int width, int height)
+        public static dynamic AddRectangle(dynamic width, dynamic height)
         {
-            Panel rectangle = new()
-            {
-                Size = new Size(width, height),
-                Name = "Shape" + shapeCounter++
-            };
+            width = (int)width;
+            height = (int)height;
+
+            Panel rectangle = new() { Size = new Size(width, height), Name = "Shape" + shapeCounter++ };
             rectangle.Paint += (sender, e) =>
             {
                 ApplyRotation(e.Graphics, rectangle.Name, width, height);
@@ -54,19 +51,16 @@ namespace SmallBasicOpenEditionDll
             return rectangle.Name;
         }
 
-        /// <summary>
-        /// Adds an ellipse to the GraphicsWindow with the specified width and height.
-        /// </summary>
+        /// <summary>Adds an ellipse to the GraphicsWindow with the specified width and height.</summary>
         /// <param name="width">The width of the ellipse.</param>
         /// <param name="height">The height of the ellipse.</param>
         /// <returns>The name of the created ellipse shape.</returns>
-        public static string AddEllipse(int width, int height)
+        public static dynamic AddEllipse(dynamic width, dynamic height)
         {
-            Panel ellipse = new()
-            {
-                Size = new Size(width, height),
-                Name = "Shape" + shapeCounter++
-            };
+            width = (int)width;
+            height = (int)height;
+
+            Panel ellipse = new() { Size = new Size(width, height), Name = "Shape" + shapeCounter++ };
             ellipse.Paint += (sender, e) =>
             {
                 ApplyRotation(e.Graphics, ellipse.Name, width, height);
@@ -78,9 +72,7 @@ namespace SmallBasicOpenEditionDll
             return ellipse.Name;
         }
 
-        /// <summary>
-        /// Adds a triangle to the GraphicsWindow defined by three sets of coordinates.
-        /// </summary>
+        /// <summary>Adds a triangle to the GraphicsWindow defined by three sets of coordinates.</summary>
         /// <param name="x1">X coordinate of the first point.</param>
         /// <param name="y1">Y coordinate of the first point.</param>
         /// <param name="x2">X coordinate of the second point.</param>
@@ -88,13 +80,16 @@ namespace SmallBasicOpenEditionDll
         /// <param name="x3">X coordinate of the third point.</param>
         /// <param name="y3">Y coordinate of the third point.</param>
         /// <returns>The name of the created triangle shape.</returns>
-        public static string AddTriangle(int x1, int y1, int x2, int y2, int x3, int y3)
+        public static dynamic AddTriangle(dynamic x1, dynamic y1, dynamic x2, dynamic y2, dynamic x3, dynamic y3)
         {
-            Panel triangle = new()
-            {
-                Size = new Size((int)Math.Max(x1, Math.Max(x2, x3)), (int)Math.Max(y1, Math.Max(y2, y3))),
-                Name = "Shape" + shapeCounter++
-            };
+            x1 = (int)x1;
+            y1 = (int)y1;
+            x2 = (int)x2;
+            y2 = (int)y2;
+            x3 = (int)x3;
+            y3 = (int)y3;
+
+            Panel triangle = new() { Size = new Size((int)Math.Max(x1, Math.Max(x2, x3)), (int)Math.Max(y1, Math.Max(y2, y3))), Name = "Shape" + shapeCounter++ };
 
             triangle.Paint += (sender, e) =>
             {
@@ -108,21 +103,20 @@ namespace SmallBasicOpenEditionDll
             return triangle.Name;
         }
 
-        /// <summary>
-        /// Adds a line to the GraphicsWindow defined by two sets of coordinates.
-        /// </summary>
+        /// <summary>Adds a line to the GraphicsWindow defined by two sets of coordinates.</summary>
         /// <param name="x1">X coordinate of the start point.</param>
         /// <param name="y1">Y coordinate of the start point.</param>
         /// <param name="x2">X coordinate of the end point.</param>
         /// <param name="y2">Y coordinate of the end point.</param>
         /// <returns>The name of the created line shape.</returns>
-        public static string AddLine(int x1, int y1, int x2, int y2)
+        public static dynamic AddLine(dynamic x1, dynamic y1, dynamic x2, dynamic y2)
         {
-            Panel line = new()
-            {
-                Size = new Size((int)Math.Max(x1, x2), (int)Math.Max(y1, y2)),
-                Name = "Shape" + shapeCounter++
-            };
+            x1 = (int)x1;
+            y1 = (int)y1;
+            x2 = (int)x2;
+            y2 = (int)y2;
+
+            Panel line = new() { Size = new Size((int)Math.Max(x1, x2), (int)Math.Max(y1, y2)), Name = "Shape" + shapeCounter++ };
             line.Paint += (sender, e) =>
             {
                 ApplyRotation(e.Graphics, line.Name, line.Width, line.Height);
@@ -135,24 +129,19 @@ namespace SmallBasicOpenEditionDll
             return line.Name;
         }
 
-        /// <summary>
-        /// Adds an image to the GraphicsWindow using the specified image name from the ImageList.
-        /// </summary>
+        /// <summary>Adds an image to the GraphicsWindow using the specified image name from the ImageList.</summary>
         /// <param name="imageName">The name of the image in the ImageList.</param>
         /// <returns>The name of the created image shape.</returns>
-        public static string AddImage(string imageName)
+        public static dynamic AddImage(dynamic imageName)
         {
+            imageName = (string)imageName;
+
             try
             {
                 Image image = ImageList.GetImageByName(imageName);
                 if (image != null)
                 {
-                    PictureBox pictureBox = new()
-                    {
-                        Image = image,
-                        Size = image.Size,
-                        Name = "Shape" + shapeCounter++
-                    };
+                    PictureBox pictureBox = new() { Image = image, Size = image.Size, Name = "Shape" + shapeCounter++ };
                     graphicsForm?.Controls.Add(pictureBox);
                     shapes[pictureBox.Name] = pictureBox;
                     shapeRotations[pictureBox.Name] = 0;
@@ -170,13 +159,14 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-        /// <summary>
-        /// Rotates the specified shape or image by the given angle.
-        /// </summary>
+        /// <summary>Rotates the specified shape or image by the given angle.</summary>
         /// <param name="shapeName">The name of the shape or image to rotate.</param>
         /// <param name="angle">The angle in degrees to rotate.</param>
-        public static void Rotate(string shapeName, float angle)
+        public static void Rotate(dynamic shapeName, dynamic angle)
         {
+            shapeName = (string)shapeName;
+            angle = (float)angle;
+
             if (shapes.ContainsKey(shapeName))
             {
                 if (shapes[shapeName] is PictureBox pictureBox)  // If it's an image
@@ -195,17 +185,19 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-        /// <summary>
-        /// Resizes (zooms) the specified shape by scaling its width and height.
-        /// </summary>
+        /// <summary>Resizes (zooms) the specified shape by scaling its width and height.</summary>
         /// <param name="shapeName">The name of the shape to resize.</param>
         /// <param name="scaleX">The scale factor for the width.</param>
         /// <param name="scaleY">The scale factor for the height.</param>
-        public static void Zoom(string shapeName, float scaleX, float scaleY)
+        public static void Zoom(dynamic shapeName, dynamic scaleX, dynamic scaleY)
         {
+            shapeName = (string)shapeName;
+            scaleX = (float)scaleX;
+            scaleY = (float)scaleY;
+
             if (shapes.ContainsKey(shapeName))
             {
-                shapes[shapeName].Size = new Size((int)(shapes[shapeName].Width * scaleX), (int)(shapes[shapeName].Height * scaleY));
+                shapes[shapeName].Size = new Size(shapes[shapeName].Width * scaleX, shapes[shapeName].Height * scaleY);
             }
             else
             {
@@ -213,9 +205,7 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-        /// <summary>
-        /// Rotates the specified image by the given angle.
-        /// </summary>
+        /// <summary>Rotates the specified image by the given angle.</summary>
         /// <param name="img">The image to rotate.</param>
         /// <param name="rotationAngle">The angle in degrees to rotate.</param>
         /// <returns>The rotated image.</returns>
@@ -234,9 +224,7 @@ namespace SmallBasicOpenEditionDll
             return bmp;
         }
 
-        /// <summary>
-        /// Applies the rotation to non-image shapes before drawing them.
-        /// </summary>
+        /// <summary>Applies the rotation to non-image shapes before drawing them.</summary>
         /// <param name="g">The Graphics object used for drawing.</param>
         /// <param name="shapeName">The name of the shape being drawn.</param>
         /// <param name="width">The width of the shape.</param>

@@ -15,10 +15,7 @@ using System.Threading;
 
 namespace SmallBasicOpenEditionDll
 {
-    /// <summary>
-    /// Provides methods and properties related to the execution of the program, including command-line argument handling,
-    /// delays, and termination.
-    /// </summary>
+    /// <summary>Provides methods and properties related to the execution of the program, including command-line argument handling, delays, and termination.</summary>
     public static class Program
     {
         /// <summary>Gets the number of command-line arguments passed to the program (excluding the program name).</summary>
@@ -60,14 +57,7 @@ namespace SmallBasicOpenEditionDll
         public static dynamic GetArgument(dynamic index)
         {
             string[] args = Environment.GetCommandLineArgs();
-            if (index >= 0 && index < args.Length)
-            {
-                return args[index];
-            }
-            else
-            {
-                throw new IndexOutOfRangeException("Invalid argument index.");
-            }
+            return index < 0 || index >= args.Length ? throw new IndexOutOfRangeException("Invalid argument index.") : (dynamic)args[index];
         }
     }
 }

@@ -25,79 +25,49 @@ namespace SmallBasicOpenEditionDll
         private static MediaPlayer mediaPlayer = new();
         private static bool isPlaying = false;
 
-        /// <summary>
-        /// Plays the system click sound (Asterisk).
-        /// </summary>
-        public static void PlayClick()
-        {
-            SystemSounds.Asterisk.Play();
-        }
+        /// <summary>Plays the system click sound (Asterisk).</summary>
+        public static void PlayClick() => SystemSounds.Asterisk.Play();
 
-        /// <summary>
-        /// Plays the system click sound (Asterisk) and waits for approximately 1 second.
-        /// </summary>
+        /// <summary>Plays the system click sound (Asterisk) and waits for approximately 1 second.</summary>
         public static void PlayClickAndWait()
         {
             PlayClick();
             Thread.Sleep(1000);
         }
 
-        /// <summary>
-        /// Plays the system chime sound (Beep).
-        /// </summary>
-        public static void PlayChime()
-        {
-            SystemSounds.Beep.Play();
-        }
+        /// <summary>Plays the system chime sound (Beep).</summary>
+        public static void PlayChime() => SystemSounds.Beep.Play();
 
-        /// <summary>
-        /// Plays the system chime sound (Beep) and waits for approximately 1 second.
-        /// </summary>
+        /// <summary>Plays the system chime sound (Beep) and waits for approximately 1 second.</summary>
         public static void PlayChimeAndWait()
         {
             PlayChime();
             Thread.Sleep(1000);
         }
 
-        /// <summary>
-        /// Plays the system chimes sound (Exclamation).
-        /// </summary>
-        public static void PlayChimes()
-        {
-            SystemSounds.Exclamation.Play();
-        }
+        /// <summary>Plays the system chimes sound (Exclamation).</summary>
+        public static void PlayChimes() => SystemSounds.Exclamation.Play();
 
-        /// <summary>
-        /// Plays the system chimes sound (Exclamation) and waits for approximately 1 second.
-        /// </summary>
+        /// <summary>Plays the system chimes sound (Exclamation) and waits for approximately 1 second.</summary>
         public static void PlayChimesAndWait()
         {
             PlayChimes();
             Thread.Sleep(1000);
         }
 
-        /// <summary>
-        /// Plays the system bell ring sound (Hand).
-        /// </summary>
-        public static void PlayBellRing()
-        {
-            SystemSounds.Hand.Play();
-        }
+        /// <summary>Plays the system bell ring sound (Hand).</summary>
+        public static void PlayBellRing() => SystemSounds.Hand.Play();
 
-        /// <summary>
-        /// Plays the system bell ring sound (Hand) and waits for approximately 1 second.
-        /// </summary>
+        /// <summary>Plays the system bell ring sound (Hand) and waits for approximately 1 second.</summary>
         public static void PlayBellRingAndWait()
         {
             PlayBellRing();
             Thread.Sleep(1000);
         }
 
-        /// <summary>
-        /// Plays an audio file from the specified file path.
-        /// </summary>
+        /// <summary>Plays an audio file from the specified file path.</summary>
         /// <param name="filePath">The file path of the audio to play (supports local and network paths).</param>
-        public static void Play(string filePath)
+        public static void Play(dynamic filePath)
         {
             try
             {
@@ -106,7 +76,7 @@ namespace SmallBasicOpenEditionDll
                     Stop(); // Stop the current media if already playing
                 }
 
-                mediaPlayer.Open(new Uri(filePath, UriKind.RelativeOrAbsolute));
+                mediaPlayer.Open(new Uri((string)filePath, UriKind.RelativeOrAbsolute));
                 mediaPlayer.Play();
                 isPlaying = true;
             }
@@ -116,11 +86,9 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-        /// <summary>
-        /// Plays an audio file from the specified file path and waits for the audio to finish playing.
-        /// </summary>
+        /// <summary>Plays an audio file from the specified file path and waits for the audio to finish playing.</summary>
         /// <param name="filePath">The file path of the audio to play (supports local and network paths).</param>
-        public static void PlayAndWait(string filePath)
+        public static void PlayAndWait(dynamic filePath)
         {
             try
             {
@@ -130,7 +98,7 @@ namespace SmallBasicOpenEditionDll
                 }
 
                 // Open the media file without playing yet
-                mediaPlayer.Open(new Uri(filePath, UriKind.RelativeOrAbsolute));
+                mediaPlayer.Open(new Uri((string)filePath, UriKind.RelativeOrAbsolute));
 
                 // Wait until the media is loaded and its duration is available
                 while (!mediaPlayer.NaturalDuration.HasTimeSpan)
