@@ -32,12 +32,10 @@ namespace SmallBasicOpenEditionDll
 
         /// <summary>Loads an image from a file path or a URL.</summary>
         /// <param name="fileNameOrUrl">The file path or URL of the image to load.</param>
-        /// <returns>
-        /// The name of the image, which can be used to reference the loaded image in other methods,
-        /// or an empty string if the image could not be loaded.
-        /// </returns>
+        /// <returns>The name of the image, which can be used to reference the loaded image in other methods,
+        /// or an empty string if the image could not be loaded.</returns>
         /// <exception cref="ArgumentException">Thrown when the provided file path or URL is invalid.</exception>
-        public static dynamic LoadImage(dynamic fileNameOrUrl) => LoadImageAsync((string)fileNameOrUrl).GetAwaiter().GetResult();
+        public static string LoadImage(string fileNameOrUrl) => LoadImageAsync(fileNameOrUrl).GetAwaiter().GetResult();
 
         private static async Task<string> LoadImageAsync(string fileNameOrUrl)
         {
@@ -75,7 +73,7 @@ namespace SmallBasicOpenEditionDll
         /// <param name="imageName">The name of the image to retrieve its width.</param>
         /// <returns>The width of the image in pixels.</returns>
         /// <exception cref="ArgumentException">Thrown when the specified image name is not found.</exception>
-        public static dynamic GetWidthOfImage(dynamic imageName) => !images.TryGetValue((string)imageName, out Image? value)
+        public static int GetWidthOfImage(string imageName) => !images.TryGetValue(imageName, out Image? value)
                 ? throw new ArgumentException($"Image with name {imageName} not found.")
                 : value.Width;
 
@@ -84,12 +82,9 @@ namespace SmallBasicOpenEditionDll
         /// <param name="imageName">The name of the image to retrieve its height.</param>
         /// <returns>The height of the image in pixels.</returns>
         /// <exception cref="ArgumentException">Thrown when the specified image name is not found.</exception>
-        public static dynamic GetHeightOfImage(dynamic imageName)
-        {
-            return images.TryGetValue((string)imageName, out Image? value)
-                ? (dynamic)value.Height
+        public static int GetHeightOfImage(string imageName) => images.TryGetValue(imageName, out Image? value)
+                ? value.Height
                 : throw new ArgumentException($"Image with name {imageName} not found.");
-        }
 
         /* 
          * Retrieves the image object by its name.

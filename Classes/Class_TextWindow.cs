@@ -18,22 +18,22 @@ namespace SmallBasicOpenEditionDll
 {
     // PInvoke constants for window states
     private const int SW_HIDE = 0;
-    private const int SW_SHOW = 5;
-    private const int SW_MINIMIZE = 6;
-    private const int SW_MAXIMIZE = 3;
+    //private const int SW_SHOW = 5;
+    //private const int SW_MINIMIZE = 6;
+    //private const int SW_MAXIMIZE = 3;
     private const int SW_RESTORE = 9;
 
     // PInvoke function for ShowWindow
     [DllImport("user32.dll")]
-    private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
     // PInvoke function to check the window's visibility
     [DllImport("user32.dll")]
-    private static extern bool IsWindowVisible(IntPtr hWnd);
+        private static extern bool IsWindowVisible(IntPtr hWnd);
 
     // PInvoke function for getting the console window handle
     [DllImport("kernel32.dll", SetLastError = true)]
-    private static extern IntPtr GetConsoleWindow();
+        private static extern IntPtr GetConsoleWindow();
 
     private static ConsoleColor _foregroundColor = Console.ForegroundColor;
     private static ConsoleColor _backgroundColor = Console.BackgroundColor;

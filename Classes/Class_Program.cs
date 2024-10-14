@@ -55,7 +55,7 @@ namespace SmallBasicOpenEditionDll
         public static string GetArgument(int index)
         {
             string[] args = Environment.GetCommandLineArgs();
-            return index < 0 || index >= args.Length ? throw new IndexOutOfRangeException("Invalid argument index.") : args[index];
+            return index < 0 || index >= args.Length ? "" : args[index];
         }
     }
 }

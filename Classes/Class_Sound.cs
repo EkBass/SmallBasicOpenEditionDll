@@ -67,7 +67,7 @@ namespace SmallBasicOpenEditionDll
 
         /// <summary>Plays an audio file from the specified file path.</summary>
         /// <param name="filePath">The file path of the audio to play (supports local and network paths).</param>
-        public static void Play(dynamic filePath)
+        public static void Play(string filePath)
         {
             try
             {
@@ -88,7 +88,7 @@ namespace SmallBasicOpenEditionDll
 
         /// <summary>Plays an audio file from the specified file path and waits for the audio to finish playing.</summary>
         /// <param name="filePath">The file path of the audio to play (supports local and network paths).</param>
-        public static void PlayAndWait(dynamic filePath)
+        public static void PlayAndWait(string filePath)
         {
             try
             {
