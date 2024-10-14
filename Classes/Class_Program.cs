@@ -21,30 +21,23 @@ namespace SmallBasicOpenEditionDll
     /// </summary>
     public static class Program
     {
-        /// <summary>
-        /// Gets the number of command-line arguments passed to the program (excluding the program name).
-        /// </summary>
+        /// <summary>Gets the number of command-line arguments passed to the program (excluding the program name).</summary>
         /// <value>The number of command-line arguments.</value>
-        public static int ArgumentCount => Environment.GetCommandLineArgs().Length - 1;
+        public static dynamic ArgumentCount => Environment.GetCommandLineArgs().Length - 1;
 
-        /// <summary>
-        /// Gets the directory where the program is being executed.
-        /// </summary>
+        /// <summary>Gets the directory where the program is being executed.</summary>
         /// <value>The base directory of the program.</value>
-        public static string Directory => AppDomain.CurrentDomain.BaseDirectory;
+        public static dynamic Directory => AppDomain.CurrentDomain.BaseDirectory;
 
-        /// <summary>
-        /// Delays the program execution for the specified number of milliseconds.
-        /// </summary>
+        /// <summary>Delays the program execution for the specified number of milliseconds.</summary>
         /// <param name="milliSeconds">The number of milliseconds to delay the program.</param>
-        public static void Delay(int milliSeconds) => Thread.Sleep(milliSeconds);  // Can't be interrupted
+        public static void Delay(dynamic milliSeconds) => Thread.Sleep((int)milliSeconds);  // Can't be interrupted
 
-        /// <summary>
-        /// Pauses the program execution for the specified number of seconds. The sleep can be interrupted by a key press.
-        /// </summary>
+        /// <summary>Pauses the program execution for the specified number of seconds. The sleep can be interrupted by a key press.</summary>
         /// <param name="seconds">The number of seconds to sleep.</param>
-        public static void Sleep(int seconds)
+        public static void Sleep(dynamic seconds)
         {
+            seconds = (int)seconds;
             for (int i = 0; i < seconds * 1000; i += 100)
             {
                 if (Console.KeyAvailable)
@@ -57,18 +50,14 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-        /// <summary>
-        /// Ends the program execution immediately.
-        /// </summary>
+        /// <summary>Ends the program execution immediately.</summary>
         public static void End() => Environment.Exit(0);
 
-        /// <summary>
-        /// Retrieves the command-line argument at the specified index.
-        /// </summary>
+        /// <summary>Retrieves the command-line argument at the specified index.</summary>
         /// <param name="index">The index of the command-line argument to retrieve (0-based).</param>
         /// <returns>The command-line argument at the specified index.</returns>
         /// <exception cref="IndexOutOfRangeException">Thrown if the index is out of range of the command-line arguments.</exception>
-        public static string GetArgument(int index)
+        public static dynamic GetArgument(dynamic index)
         {
             string[] args = Environment.GetCommandLineArgs();
             if (index >= 0 && index < args.Length)

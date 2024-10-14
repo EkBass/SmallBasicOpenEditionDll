@@ -25,68 +25,46 @@ namespace SmallBasicOpenEditionDll
         [DllImport("user32.dll")]
         private static extern int ShowCursor(bool bShow);
 
-        /// <summary>
-        /// Gets or sets the X coordinate of the mouse cursor on the screen.
-        /// </summary>
+        /// <summary>Gets or sets the X coordinate of the mouse cursor on the screen.</summary>
         /// <returns>
         /// The X coordinate of the mouse cursor in pixels.
         /// </returns>
-        public static int MouseX => Cursor.Position.X;
+        public static dynamic MouseX => Cursor.Position.X;
 
-        /// <summary>
-        /// Gets or sets the X coordinate of the mouse cursor on the screen.
-        /// </summary>
+        /// <summary>Gets or sets the X coordinate of the mouse cursor on the screen.</summary>
         /// <param name="value">
         /// The X coordinate of the mouse cursor in pixels.
         /// </param>
-        public static void SetMouseX(int value)
-        {
-            Cursor.Position = new System.Drawing.Point(value, Cursor.Position.Y);
-        }
+        public static void SetMouseX(dynamic value) => Cursor.Position = new System.Drawing.Point(value, Cursor.Position.Y);
 
-        /// <summary>
-        /// Gets or sets the Y coordinate of the mouse cursor on the screen.
-        /// </summary>
+        /// <summary>Gets or sets the Y coordinate of the mouse cursor on the screen.</summary>
         /// <returns>
         /// The Y coordinate of the mouse cursor in pixels.
         /// </returns>
-        public static int GetMouseY() => Cursor.Position.Y;
+        public static dynamic GetMouseY() => Cursor.Position.Y;
 
-        /// <summary>
-        /// Gets or sets the Y coordinate of the mouse cursor on the screen.
-        /// </summary>
+        /// <summary>Gets or sets the Y coordinate of the mouse cursor on the screen.</summary>
         /// <param name="value">
         /// The Y coordinate of the mouse cursor in pixels.
         /// </param>
-        public static void SetMouseY(int value)
-        {
-            Cursor.Position = new System.Drawing.Point(Cursor.Position.X, value);
-        }
+        public static void SetMouseY(dynamic value) => Cursor.Position = new System.Drawing.Point(Cursor.Position.X, value);
 
-        /// <summary>
-        /// Gets a value indicating whether the left mouse button is currently pressed.
-        /// </summary>
+        /// <summary>Gets a value indicating whether the left mouse button is currently pressed.</summary>
         /// <value>
         /// <c>true</c> if the left mouse button is down; otherwise, <c>false</c>.
         /// </value>
-        public static bool IsLeftButtonDown => Control.MouseButtons.HasFlag(MouseButtons.Left);
+        public static dynamic IsLeftButtonDown => Control.MouseButtons.HasFlag(MouseButtons.Left);
 
-        /// <summary>
-        /// Gets a value indicating whether the right mouse button is currently pressed.
-        /// </summary>
+        /// <summary>Gets a value indicating whether the right mouse button is currently pressed.</summary>
         /// <value>
         /// <c>true</c> if the right mouse button is down; otherwise, <c>false</c>.
         /// </value>
-        public static bool IsRightButtonDown => Control.MouseButtons.HasFlag(MouseButtons.Right);
+        public static dynamic IsRightButtonDown => Control.MouseButtons.HasFlag(MouseButtons.Right);
 
-        /// <summary>
-        /// Hides the mouse cursor from the screen.
-        /// </summary>
+        /// <summary>Hides the mouse cursor from the screen.</summary>
         public static void HideCursor() => ShowCursor(false);
 
-        /// <summary>
-        /// Shows the mouse cursor on the screen.
-        /// </summary>
+        /// <summary>Shows the mouse cursor on the screen.</summary>
         public static void ShowCursor() => ShowCursor(true);
     }
 }

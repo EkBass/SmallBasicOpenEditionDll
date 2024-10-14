@@ -20,31 +20,24 @@ using System.Threading.Tasks;
 
 namespace SmallBasicOpenEditionDll
 {
-    /// <summary>
-    /// Provides methods to load, store, and retrieve images from local files or URLs.
-    /// </summary>
+    /// <summary>Provides methods to load, store, and retrieve images from local files or URLs.</summary>
     public static class ImageList
     {
         // Dictionary to store loaded images
-        private static Dictionary<string, Image> images = new();
+        private static Dictionary<string, Image> images = [];
         private static int imageCounter = 0;
 
         // HttpClient instance (should be reused for better performance)
         private static readonly HttpClient httpClient = new();
 
-        /// <summary>
-        /// Loads an image from a file path or a URL.
-        /// </summary>
+        /// <summary>Loads an image from a file path or a URL.</summary>
         /// <param name="fileNameOrUrl">The file path or URL of the image to load.</param>
         /// <returns>
         /// The name of the image, which can be used to reference the loaded image in other methods,
         /// or an empty string if the image could not be loaded.
         /// </returns>
         /// <exception cref="ArgumentException">Thrown when the provided file path or URL is invalid.</exception>
-        public static string LoadImage(string fileNameOrUrl)
-        {
-            return LoadImageAsync(fileNameOrUrl).GetAwaiter().GetResult();
-        }
+        public static dynamic LoadImage(dynamic fileNameOrUrl) => LoadImageAsync((string)fileNameOrUrl).GetAwaiter().GetResult();
 
         private static async Task<string> LoadImageAsync(string fileNameOrUrl)
         {
@@ -71,65 +64,42 @@ namespace SmallBasicOpenEditionDll
 
                 return imageName;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new ArgumentException($"Image with name {fileNameOrUrl} not found.");
             }
         }
-    
 
-        /// <summary>
-        /// Retrieves the width of the stored image.
-        /// </summary>
+
+        /// <summary>Retrieves the width of the stored image.</summary>
         /// <param name="imageName">The name of the image to retrieve its width.</param>
         /// <returns>The width of the image in pixels.</returns>
         /// <exception cref="ArgumentException">Thrown when the specified image name is not found.</exception>
-        public static int GetWidthOfImage(string imageName)
-        {
-            if (images.TryGetValue(imageName, out Image? value))
-            {
-                return value.Width;
-            }
-            else
-            {
-                throw new ArgumentException($"Image with name {imageName} not found.");
-            }
-        }
+        public static dynamic GetWidthOfImage(dynamic imageName) => !images.TryGetValue((string)imageName, out Image? value)
+                ? throw new ArgumentException($"Image with name {imageName} not found.")
+                : value.Width;
 
-        /// <summary>
-        /// Retrieves the height of the stored image.
-        /// </summary>
+
+        /// <summary>Retrieves the height of the stored image.</summary>
         /// <param name="imageName">The name of the image to retrieve its height.</param>
         /// <returns>The height of the image in pixels.</returns>
         /// <exception cref="ArgumentException">Thrown when the specified image name is not found.</exception>
-        public static int GetHeightOfImage(string imageName)
+        public static dynamic GetHeightOfImage(dynamic imageName)
         {
-            if (images.TryGetValue(imageName, out Image? value))
-            {
-                return value.Height;
-            }
-            else
-            {
-                throw new ArgumentException($"Image with name {imageName} not found.");
-            }
+            return images.TryGetValue((string)imageName, out Image? value)
+                ? (dynamic)value.Height
+                : throw new ArgumentException($"Image with name {imageName} not found.");
         }
 
-        /// <summary>
-        /// Retrieves the image by its name.
-        /// </summary>
+        /// <summary>Retrieves the image by its name.</summary>
         /// <param name="imageName">The name of the image to retrieve.</param>
         /// <returns>The <see cref="Image"/> object associated with the specified name.</returns>
         /// <exception cref="ArgumentException">Thrown when the specified image name is not found.</exception>
-        public static Image GetImageByName(string imageName)
+        public static Image GetImageByName(dynamic imageName)
         {
-            if (images.TryGetValue(imageName, out Image? value))
-            {
-                return value;
-            }
-            else
-            {
-                throw new ArgumentException($"Image with name {imageName} not found.");
-            }
+            return images.TryGetValue((string)imageName, out Image? value)
+                ? value
+                : throw new ArgumentException($"Image with name {imageName} not found.");
         }
     }
 }

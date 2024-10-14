@@ -60,32 +60,26 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-        /// <summary>
-        /// Downloads a file from the specified URL and saves it to the provided file path.
-        /// </summary>
+        /// <summary>Downloads a file from the specified URL and saves it to the provided file path.</summary>
         /// <param name="fileName">The path where the downloaded file will be saved.</param>
         /// <param name="url">The URL of the file to download.</param>
-        /// <returns>
-        /// The path to the saved file, or an empty string if the download fails.
-        /// </returns>
-        public static string DownloadFile(string fileName, string url)
+        /// <returns>The path to the saved file, or an empty string if the download fails.</returns>
+        public static dynamic DownloadFile(dynamic fileName, dynamic url)
         {
-            string content = DownloadFile2(fileName, url).GetAwaiter().GetResult();
+            dynamic content = DownloadFile2((string)fileName, (string)url).GetAwaiter().GetResult();
             return content;
         }
 
 
-        /// <summary>
-        /// Retrieves the contents of a web page as a string.
-        /// </summary>
+        /// <summary>Retrieves the contents of a web page as a string.</summary>
         /// <param name="url">The URL of the web page to retrieve.</param>
         /// <returns>
         /// The contents of the web page as a string, 
         /// or an empty string if the request fails.
         /// </returns>
-        public static string GetWebPageContents(string url)
+        public static dynamic GetWebPageContents(dynamic url)
         {
-            string content = GetWebPageContents2(url).GetAwaiter().GetResult();
+            dynamic content = GetWebPageContents2((string)url).GetAwaiter().GetResult();
             return content;
         }
     }
