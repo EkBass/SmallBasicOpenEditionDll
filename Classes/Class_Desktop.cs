@@ -32,16 +32,14 @@ namespace SmallBasicOpenEditionDll
         private const int SPIF_SENDCHANGE = 0x02;
 
         /// <summary>Gets the width of the primary screen (desktop) in pixels.</summary>
-        public static dynamic Width => Screen.PrimaryScreen != null ? Screen.PrimaryScreen.Bounds.Width : 0;
+        public static int Width => Screen.PrimaryScreen != null ? Screen.PrimaryScreen.Bounds.Width : 0;
 
         /// <summary>Gets the height of the primary screen (desktop) in pixels.</summary>
-        public static dynamic Height => Screen.PrimaryScreen != null ? Screen.PrimaryScreen.Bounds.Height : 0;
+        public static int Height => Screen.PrimaryScreen != null ? Screen.PrimaryScreen.Bounds.Height : 0;
 
         /// <summary>Sets the desktop wallpaper to the specified file path or URL.</summary>
-        public static void SetWallpaper(dynamic fileOrUrl)
+        public static void SetWallpaper(string fileOrUrl)
         {
-            fileOrUrl = (string)fileOrUrl;
-
             if (!string.IsNullOrWhiteSpace(fileOrUrl))
             {
                 int result = SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, fileOrUrl, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);

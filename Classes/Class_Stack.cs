@@ -15,21 +15,18 @@ using System.Collections.Generic;
 
 namespace SmallBasicOpenEditionDll
 {
-    /// <summary>
-    /// Provides methods to create and manage multiple stacks, identified by name, allowing values to be pushed and popped.
-    /// </summary>
+    /// <summary>Provides methods to create and manage multiple stacks, identified by name, allowing values to be pushed and popped.</summary>
     public static class Stack
     {
         // Dictionary to store multiple stacks, each identified by a name
         private static Dictionary<string, Stack<object>> stacks = [];
 
-        /// <summary>
-        /// Pushes a value onto the specified stack. If the stack does not exist, it is created.
-        /// </summary>
+        /// <summary>Pushes a value onto the specified stack. If the stack does not exist, it is created.</summary>
         /// <param name="stackName">The name of the stack to push the value onto.</param>
         /// <param name="value">The value to push onto the stack.</param>
-        public static void PushValue(string stackName, object value)
+        public static void PushValue(dynamic stackName, object value)
         {
+            stackName = (string)stackName;
             if (!stacks.ContainsKey(stackName))
             {
                 // If the stack doesn't exist, create it
@@ -40,14 +37,13 @@ namespace SmallBasicOpenEditionDll
             stacks[stackName].Push(value);
         }
 
-        /// <summary>
-        /// Gets the number of items in the specified stack.
-        /// </summary>
+        /// <summary>Gets the number of items in the specified stack.</summary>
         /// <param name="stackName">The name of the stack to get the count of items from.</param>
         /// <returns>The number of items in the stack.</returns>
         /// <exception cref="ArgumentException">Thrown if the specified stack does not exist.</exception>
-        public static int GetCount(string stackName)
+        public static dynamic GetCount(dynamic stackName)
         {
+            stackName = (string)stackName;
             if (stacks.ContainsKey(stackName))
             {
                 return stacks[stackName].Count;
@@ -58,14 +54,13 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-        /// <summary>
-        /// Pops the top value from the specified stack.
-        /// </summary>
+        /// <summary>Pops the top value from the specified stack.</summary>
         /// <param name="stackName">The name of the stack to pop the value from.</param>
         /// <returns>The value popped from the top of the stack.</returns>
         /// <exception cref="InvalidOperationException">Thrown if the stack is either empty or does not exist.</exception>
-        public static object PopValue(string stackName)
+        public static object PopValue(dynamic stackName)
         {
+            stackName= (string)stackName;
             if (stacks.ContainsKey(stackName) && stacks[stackName].Count > 0)
             {
                 return stacks[stackName].Pop();

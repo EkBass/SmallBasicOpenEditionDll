@@ -91,15 +91,16 @@ namespace SmallBasicOpenEditionDll
                 : throw new ArgumentException($"Image with name {imageName} not found.");
         }
 
-        /// <summary>Retrieves the image by its name.</summary>
-        /// <param name="imageName">The name of the image to retrieve.</param>
-        /// <returns>The <see cref="Image"/> object associated with the specified name.</returns>
-        /// <exception cref="ArgumentException">Thrown when the specified image name is not found.</exception>
-        public static Image GetImageByName(dynamic imageName)
+        /* 
+         * Retrieves the image object by its name.
+         * This is done since Shapes has method that needs this.
+         * */
+        public static Image GetImageByName(string imageName)
         {
-            return images.TryGetValue((string)imageName, out Image? value)
-                ? value
+            return images.TryGetValue(imageName, out Image? image)
+                ? image
                 : throw new ArgumentException($"Image with name {imageName} not found.");
         }
+
     }
 }

@@ -3,8 +3,7 @@
  * Language: C#
  * File: Class_File.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
- * Last date: 13th October 2024
- * License: See license.txt
+  * License: See license.txt
  * 
  * Description:
  * File class provides a set of methods for performing common file and directory operations.
@@ -13,7 +12,6 @@
 
 using System;
 using System.IO;
-using System.Collections.Generic;
 using System.Linq;
 
 
@@ -28,12 +26,12 @@ namespace SmallBasicOpenEditionDll
         /// <summary>Reads the entire contents of a file.</summary>
         /// <param name="filePath">The file path to read from.</param>
         /// <returns>The contents of the file as a string, or an empty string if an error occurs.</returns>
-        public static dynamic ReadContents(dynamic filePath)
+        public static string ReadContents(string filePath)
         {
             try
             {
                 LastError = "";
-                return System.IO.File.ReadAllText((string)filePath);
+                return System.IO.File.ReadAllText(filePath);
             }
             catch (Exception ex)
             {
@@ -46,12 +44,12 @@ namespace SmallBasicOpenEditionDll
         /// <param name="filePath">The file path to write to.</param>
         /// <param name="contents">The contents to write to the file.</param>
         /// <returns>True if the operation succeeds, otherwise false.</returns>
-        public static dynamic WriteContents(dynamic filePath, dynamic contents)
+        public static bool  WriteContents(string filePath, string contents)
         {
             try
             {
                 LastError = "";
-                System.IO.File.WriteAllText((string)filePath, (string)contents);
+                System.IO.File.WriteAllText(filePath, contents);
                 return true;
             }
             catch (Exception ex)
@@ -65,11 +63,8 @@ namespace SmallBasicOpenEditionDll
         /// <param name="filePath">The file path to read from.</param>
         /// <param name="lineNumber">The line number to read (1-based).</param>
         /// <returns>The line contents as a string, or an empty string if an error occurs.</returns>
-        public static dynamic ReadLine(dynamic filePath, dynamic lineNumber)
+        public static string ReadLine(string filePath, int lineNumber)
         {
-            filePath = (string)filePath;
-            lineNumber = (int)lineNumber;
-
             try
             {
                 LastError = "";
@@ -88,12 +83,8 @@ namespace SmallBasicOpenEditionDll
         /// <param name="lineNumber">The line number to write (1-based).</param>
         /// <param name="contents">The contents to write to the specified line.</param>
         /// <returns>True if the operation succeeds, otherwise false.</returns>
-        public static dynamic WriteLine(dynamic filePath, dynamic lineNumber, dynamic contents)
+        public static bool WriteLine(string filePath, int lineNumber, string contents)
         {
-            filePath = (string)(filePath);
-            lineNumber = (int)lineNumber;
-            contents = (string)(contents);
-
             try
             {
                 LastError = "";
@@ -118,12 +109,8 @@ namespace SmallBasicOpenEditionDll
         /// <param name="lineNumber">The line number to insert the new line (1-based).</param>
         /// <param name="contents">The contents to insert at the specified line.</param>
         /// <returns>True if the operation succeeds, otherwise false.</returns>
-        public static dynamic InsertLine(dynamic filePath, dynamic lineNumber, dynamic contents)
+        public static bool InsertLine(string filePath, int lineNumber, string contents)
         {
-            filePath = (string)(filePath);
-            lineNumber = (int)lineNumber;
-            contents = (string)(contents);
-
             try
             {
                 LastError = "";
@@ -150,11 +137,8 @@ namespace SmallBasicOpenEditionDll
         /// <param name="filePath">The file path to append to.</param>
         /// <param name="contents">The contents to append.</param>
         /// <returns>True if the operation succeeds, otherwise false.</returns>
-        public static dynamic AppendContents(dynamic filePath, dynamic contents)
+        public static bool AppendContents(string filePath, string contents)
         {
-            filePath = (string)filePath;
-            contents = (string)contents;
-
             try
             {
                 LastError = "";
@@ -172,11 +156,8 @@ namespace SmallBasicOpenEditionDll
         /// <param name="sourceFilePath">The source file path.</param>
         /// <param name="destinationFilePath">The destination file path.</param>
         /// <returns>True if the operation succeeds, otherwise false.</returns>
-        public static dynamic CopyFile(dynamic sourceFilePath, dynamic destinationFilePath)
+        public static bool CopyFile(string sourceFilePath, string destinationFilePath)
         {
-            sourceFilePath = (string)sourceFilePath;
-            destinationFilePath = (string)destinationFilePath;
-
             try
             {
                 LastError = "";
@@ -193,10 +174,8 @@ namespace SmallBasicOpenEditionDll
         /// <summary>Deletes the specified file.</summary>
         /// <param name="filePath">The file path to delete.</param>
         /// <returns>True if the operation succeeds, otherwise false.</returns>
-        public static dynamic DeleteFile(dynamic filePath)
+        public static bool DeleteFile(string filePath)
         {
-            filePath = (string)(filePath);
-
             try
             {
                 LastError = "";
@@ -217,9 +196,8 @@ namespace SmallBasicOpenEditionDll
         /// <summary>Creates a new directory at the specified path.</summary>
         /// <param name="directoryPath">The directory path to create.</param>
         /// <returns>True if the operation succeeds, otherwise false.</returns>
-        public static dynamic CreateDirectory(dynamic directoryPath)
+        public static bool CreateDirectory(string directoryPath)
         {
-            directoryPath = (string)directoryPath;
             try
             {
                 LastError = "";
@@ -240,9 +218,8 @@ namespace SmallBasicOpenEditionDll
         /// <summary>Deletes the specified directory and all its contents.</summary>
         /// <param name="directoryPath">The directory path to delete.</param>
         /// <returns>True if the operation succeeds, otherwise false.</returns>
-        public static dynamic DeleteDirectory(dynamic directoryPath)
+        public static bool DeleteDirectory(string directoryPath)
         {
-            directoryPath = (string)directoryPath;
             try
             {
                 LastError = "";
@@ -262,10 +239,9 @@ namespace SmallBasicOpenEditionDll
 
         /// <summary>Retrieves all file paths in the specified directory.</summary>
         /// <param name="directoryPath">The directory path to search.</param>
-        /// <returns>An array of file paths, or an empty array if an error occurs.</returns>
-        public static dynamic GetFiles(dynamic directoryPath)
+        /// <returns>A string of file paths seperated by line change, or an empty string if an error occurs.</returns>
+        public static string GetFiles(string directoryPath)
         {
-            directoryPath = (string)directoryPath;
             try
             {
                 LastError = "";
@@ -283,11 +259,9 @@ namespace SmallBasicOpenEditionDll
 
         /// <summary>Retrieves all directory paths in the specified directory.</summary>
         /// <param name="directoryPath">The directory path to search.</param>
-        /// <returns>An array of directory paths, or an empty array if an error occurs.</returns>
-        public static dynamic GetDirectories(dynamic directoryPath)
+        /// <returns>An string of directory paths, or an empty string if an error occurs.</returns>
+        public static string GetDirectories(string directoryPath)
         {
-            directoryPath = (string)directoryPath;
-
             try
             {
                 string[] files = Directory.GetDirectories(directoryPath);
