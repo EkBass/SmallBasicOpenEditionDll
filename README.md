@@ -1,4 +1,4 @@
-## SmallBasic Open Edition
+## SmallBasic Open Edition Dll
 
 SmallBasicOpenEditionDll is part of the broader SmallBasic Open Edition project.
 
