@@ -68,18 +68,18 @@ namespace SmallBasicOpenEditionDll
         public static int Millisecond => DateTimeOffset.Now.Millisecond;
 
         /// <summary>Gets the number of milliseconds that have elapsed since the program started.</summary>
-        public static int ElapsedMillisecondsAfterStart()
+        public static long ElapsedMillisecondsAfterStart()
         {
             TimeSpan elapsed = DateTimeOffset.UtcNow - programStart;
-            return (int)elapsed.TotalMilliseconds;
+            return (long)elapsed.TotalMilliseconds;
         }
 
         /// <summary>Gets the number of milliseconds that have elapsed since January 1, 2024 (UTC).</summary>
-        public static int ElapsedMilliseconds()
+        public static long ElapsedMilliseconds()
         {
             // Calculate the total milliseconds since January 1, 2024
             TimeSpan elapsed = DateTimeOffset.UtcNow - startOf2024;
-            return (int)elapsed.TotalMilliseconds;
+            return (long)elapsed.TotalMilliseconds;
         }
     }
 }
