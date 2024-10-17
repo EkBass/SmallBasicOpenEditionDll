@@ -3,7 +3,7 @@
  * Language: C#
  * File: Class_Mouse.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
-  * License: See license.txt
+ * License: See license.txt
  * 
  * Description:
  * The Mouse class provides a set of methods and properties to interact with the system mouse

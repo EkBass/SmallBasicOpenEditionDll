@@ -3,7 +3,7 @@
  * Language: C#
  * File: Class_Program.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
-  * License: See license.txt
+ * License: See license.txt
  * 
  * Description:
  * Provides methods and properties related to the execution of the program, including command-line argument handling delays, and termination.

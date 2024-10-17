@@ -3,7 +3,6 @@
  * Language: C#
  * File: Class_GraphicsWindow.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
- * Last date: 13th October 2024
  * License: See license.txt
  * 
  * Description:

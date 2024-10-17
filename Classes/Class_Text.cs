@@ -3,7 +3,7 @@
  * Language: C#
  * File: Class_Text.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
-  * License: See license.txt
+ * License: See license.txt
  * 
  * Description:
  * Provides methods for performing text manipulations such as concatenation, searching, case conversion, and substring operations.

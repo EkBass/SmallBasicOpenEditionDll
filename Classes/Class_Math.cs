@@ -3,7 +3,7 @@
  * Language: C#
  * File: Class_Math.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
-  * License: See license.txt
+ * License: See license.txt
  * 
  * Description:
  * Math class provides a collection of math functions and sych that allow users to perform a mathematical operations.

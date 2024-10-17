@@ -6,7 +6,7 @@
  * License: See license.txt
  *
  * Description:
- * The Controls class provides functionality to create and manage elements (buttons and textboxes) within a GraphicsWindow.
+ * The Controls class provides functionality to create and manage elements (buttons and textboxes) within a GraphicsWindow. 
  * It internally stores the created controls in a dictionary (controlList), using their unique names as keys. 
  * When adding a control, the class only returns the name of the control to external code, not the actual control object.
 */

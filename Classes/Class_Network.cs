@@ -3,7 +3,7 @@
  * Language: C#
  * File: Class_Network.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
-  * License: See license.txt
+ * License: See license.txt
  * 
  * Description:
  * Provides methods to perform network operations, such as downloading files and retrieving web page contents.

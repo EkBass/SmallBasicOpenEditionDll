@@ -3,7 +3,7 @@
  * Language: C#
  * File: Class_Shapes.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
-  * License: See license.txt
+ * License: See license.txt
  * 
  * Description:
  * Provides methods to create and manipulate shapes in the GraphicsWindow, including adding rectangles, ellipses, triangles, lines, and images
