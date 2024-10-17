@@ -2,6 +2,8 @@
 
 SmallBasicOpenEditionDll is part of the broader SmallBasic Open Edition project.
 
+Check out [wiki](https://github.com/EkBass/SmallBasicOpenEditionDll/wiki) for more specific information.
+
 The goal of this project is to develop an interpreter/compiler capable of translating code written in [Microsoft SmallBasic](https://smallbasic-publicwebsite.azurewebsites.net/) into C#. Once translated, the C# code is compiled into an executable using a C# compiler.
 
 **SmallBasicOpenEditionDll.dll** replicates the classes and methods of the original `smallbasic.dll` library included with Microsoft SmallBasic. This makes it easier for the interpreter to convert SmallBasic code into C#.
