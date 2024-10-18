@@ -18,19 +18,27 @@ namespace SmallBasicOpenEditionDll
     public static class Program
     {
 
-                // Backing field for LastError
+        // Backing field for LastError
         private static string? _lastError;
 
         /// <summary>Stores the last error message, if any operation fails.</summary>
         public static string? LastError
         {
             get => _lastError;
-            private set
+            set
             {
-                // Add a timestamp in "yyyy-MM-dd HH:mm:ss" format before the error message
-                _lastError = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {value}";
+                // Only add a timestamp if the value is not null
+                if (value != null)
+                {
+                    _lastError = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {value}";
+                }
+                else
+                {
+                    _lastError = null;  // Set to null without timestamp
+                }
             }
         }
+
 
         /// <summary>Gets the number of command-line arguments passed to the program (excluding the program name).</summary>
         /// <value>The number of command-line arguments.</value>

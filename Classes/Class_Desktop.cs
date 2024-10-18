@@ -25,12 +25,20 @@ namespace SmallBasicOpenEditionDll
         public static string? LastError
         {
             get => _lastError;
-            private set
+            set
             {
-                // Add a timestamp in "yyyy-MM-dd HH:mm:ss" format before the error message
-                _lastError = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {value}";
+                // Only add a timestamp if the value is not null
+                if (value != null)
+                {
+                    _lastError = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {value}";
+                }
+                else
+                {
+                    _lastError = null;  // Set to null without timestamp
+                }
             }
         }
+
 
         // User32.dll import for setting wallpaper
         [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
