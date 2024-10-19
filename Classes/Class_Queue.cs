@@ -101,5 +101,23 @@ namespace SmallBasicOpenEditionDll
                 return null;
             }
         }
+
+        /// <summary>Removes the queue with the specified name from the dictionary.</summary>
+        /// <param name="queueName">The name of the queue to dequeue the value from.</param>
+        /// <returns>True if removed with succes, other false.</returns>
+        public static bool RemoveQueue(string queueName)
+        {
+            if (queues.ContainsKey(queueName))
+            {
+                queues.Remove(queueName); // Remove the stack by name
+                LastError = null;
+                return true;
+            }
+            else
+            {
+                LastError = $"Queue with name '{queueName}' does not exist.";
+                return false;
+            }
+        }
     }
 }

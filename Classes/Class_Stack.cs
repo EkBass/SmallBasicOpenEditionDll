@@ -101,5 +101,23 @@ namespace SmallBasicOpenEditionDll
                 return null;
             }
         }
+
+        /// <summary>Removes the stack with the specified name from the dictionary.</summary>
+        /// <param name="stackName">The name of the stack to remove.</param>
+        /// <returns>True if removed with succes, other false.</returns>
+        public static bool RemoveStack(string stackName)
+        {
+            if (stacks.ContainsKey(stackName))
+            {
+                stacks.Remove(stackName); // Remove the stack by name
+                LastError = null;
+                return true;
+            }
+            else
+            {
+                LastError = $"Stack with name '{stackName}' does not exist.";
+                return false;
+            }
+        }
     }
 }
