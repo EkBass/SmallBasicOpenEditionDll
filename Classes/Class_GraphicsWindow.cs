@@ -25,7 +25,6 @@ namespace SmallBasicOpenEditionDll
         public static Color penColor = Color.Black;
         public static Color brushColor = Color.Black;
         public static int penWidth = 1;
-        public static int fontSize;
         public static Font font = new("Arial", 12);
         public static bool canResize = false;
 
@@ -42,27 +41,25 @@ namespace SmallBasicOpenEditionDll
             get => _lastError;
             set
             {
-                // Only add a timestamp if the value is not null
                 if (value != null)
                 {
                     _lastError = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {value}";
                 }
                 else
                 {
-                    _lastError = null;  // Set to null without timestamp
+                    _lastError = null;
                 }
             }
         }
 
-
-        // --- Event Handling ---
+        // Event Handling for key and mouse events
         public static event EventHandler<KeyEventArgs>? KeyDown;
         public static event EventHandler<KeyEventArgs>? KeyUp;
         public static event EventHandler<MouseEventArgs>? MouseDown;
         public static event EventHandler<MouseEventArgs>? MouseUp;
         public static event EventHandler<MouseEventArgs>? MouseMove;
 
-        // --- Properties ---
+        // Properties for window dimensions and colors
         public static int Width
         {
             get => _width;
@@ -144,20 +141,13 @@ namespace SmallBasicOpenEditionDll
             set
             {
                 LastError = null;
-                try
+                if (value > 0)
                 {
-                    if (value > 0)
-                    {
-                        penWidth = value;
-                    }
-                    else
-                    {
-                        LastError = $"Invalid pen width: {value}";
-                    }
+                    penWidth = value;
                 }
-                catch
+                else
                 {
-                    LastError = $"Error setting pen width: {value}";
+                    LastError = $"Invalid pen width: {value}";
                 }
             }
         }
@@ -181,31 +171,22 @@ namespace SmallBasicOpenEditionDll
 
         public static int FontSize
         {
-            get => (int)font.Size; // Cast the float to int when returning
-
+            get => (int)font.Size;
             set
             {
                 LastError = null;
-                try
+                if (value > 0)
                 {
-                    if (value > 0)
-                    {
-                        font = new Font(font.Name, (float)value, font.Style); // Cast int to float when setting the font size
-                    }
-                    else
-                    {
-                        LastError = $"Invalid font size: {value}";
-                    }
+                    font = new Font(font.Name, value, font.Style);
                 }
-                catch
+                else
                 {
-                    LastError = $"Error setting font size: {value}";
+                    LastError = $"Invalid font size: {value}";
                 }
             }
         }
 
-
-        // --- Methods ---
+        // Show and hide the graphics window
         public static bool Show()
         {
             LastError = null;
@@ -226,7 +207,7 @@ namespace SmallBasicOpenEditionDll
 
                     graphics = drawingPanel.CreateGraphics();
 
-                    // Event handling
+                    // Attach event handlers
                     graphicsForm.KeyDown += (s, e) => KeyDown?.Invoke(s, e);
                     graphicsForm.KeyUp += (s, e) => KeyUp?.Invoke(s, e);
                     drawingPanel.MouseDown += (s, e) => MouseDown?.Invoke(s, e);
@@ -262,7 +243,7 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-        // Drawing methods with null-checks
+        // Methods to draw shapes and text
         public static bool DrawRectangle(int x, int y, int width, int height)
         {
             if (!CheckGraphics()) return false;
@@ -287,7 +268,6 @@ namespace SmallBasicOpenEditionDll
 
             try
             {
-                LastError = null;
                 using Brush brush = new SolidBrush(brushColor);
                 graphics?.FillRectangle(brush, x, y, width, height);
                 return true;
@@ -299,8 +279,74 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-        // Additional methods like DrawEllipse, FillEllipse, etc. would go here...
+        public static bool DrawEllipse(int x, int y, int width, int height)
+        {
+            if (!CheckGraphics()) return false;
 
+            try
+            {
+                using Pen pen = new(penColor, penWidth);
+                graphics?.DrawEllipse(pen, x, y, width, height);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LastError = ex.Message;
+                return false;
+            }
+        }
+
+        public static bool FillEllipse(int x, int y, int width, int height)
+        {
+            if (!CheckGraphics()) return false;
+
+            try
+            {
+                using Brush brush = new SolidBrush(brushColor);
+                graphics?.FillEllipse(brush, x, y, width, height);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LastError = ex.Message;
+                return false;
+            }
+        }
+
+        public static bool DrawText(int x, int y, string text)
+        {
+            if (!CheckGraphics()) return false;
+
+            try
+            {
+                using Brush brush = new SolidBrush(penColor);
+                graphics?.DrawString(text, font, brush, x, y);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LastError = ex.Message;
+                return false;
+            }
+        }
+
+        public static bool Clear()
+        {
+            if (!CheckGraphics()) return false;
+
+            try
+            {
+                graphics?.Clear(backgroundColor);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LastError = ex.Message;
+                return false;
+            }
+        }
+
+        // Private utility methods
         private static bool CheckGraphics()
         {
             if (graphics == null)
@@ -313,7 +359,7 @@ namespace SmallBasicOpenEditionDll
 
         private static bool ResizeWindow()
         {
-            if (!CheckGraphics()) return false;
+            if (graphicsForm == null) return false;
             LastError = null;
 
             try

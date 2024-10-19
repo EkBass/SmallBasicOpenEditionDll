@@ -13,17 +13,19 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 
 namespace SmallBasicOpenEditionDll
 {
     public static class Shapes
     {
-        private static Dictionary<string, Control> shapes = [];
-        private static Dictionary<string, float> shapeRotations = [];
+        private static Dictionary<string, Control> shapes = new();
+        private static Dictionary<string, float> shapeRotations = new();
         private static int shapeCounter = 0;
         private static Form? graphicsForm = GraphicsWindow.graphicsForm;
-
+        // Dictionary to store the opacity values for each shape (default to 100)
+        private static Dictionary<string, float> shapeOpacities = new();
         // Backing field for LastError
         private static string? _lastError;
 
@@ -50,22 +52,29 @@ namespace SmallBasicOpenEditionDll
         /// <param name="width">The width of the rectangle.</param>
         /// <param name="height">The height of the rectangle.</param>
         /// <returns>The name of the created rectangle shape.</returns>
+        /// <summary>Adds a rectangle to the GraphicsWindow with the specified width and height.</summary>
+        /// <param name="width">The width of the rectangle.</param>
+        /// <param name="height">The height of the rectangle.</param>
+        /// <returns>The name of the created rectangle shape.</returns>
         public static string? AddRectangle(int width, int height)
         {
+            if (GraphicsWindow.drawingPanel == null) return null;
+
             try
-            { 
-                using Panel rectangle = new() { Size = new Size(width, height), Name = "Shape" + shapeCounter++ };
+            {
+                string shapeName = "Shape" + shapeCounter++;
+                Panel rectangle = new() { Size = new Size(width, height), Name = shapeName };
                 rectangle.Paint += (sender, e) =>
                 {
-                    ApplyRotation(e.Graphics, rectangle.Name, width, height);
+                    ApplyRotation(e.Graphics, shapeName, width, height);
                     e.Graphics.FillRectangle(Brushes.Blue, 0, 0, width, height);
                 };
 
-                graphicsForm?.Controls.Add(rectangle);
-                shapes[rectangle.Name] = rectangle;
-                shapeRotations[rectangle.Name] = 0;  // Initial rotation is 0 degrees
+                GraphicsWindow.drawingPanel.Controls.Add(rectangle);
+                shapes[shapeName] = rectangle;
+                shapeRotations[shapeName] = 0;
                 LastError = null;
-                return rectangle.Name;
+                return shapeName;
             }
             catch (Exception ex)
             {
@@ -80,19 +89,23 @@ namespace SmallBasicOpenEditionDll
         /// <returns>The name of the created ellipse shape.</returns>
         public static string? AddEllipse(int width, int height)
         {
+            if (GraphicsWindow.drawingPanel == null) return null;
+
             try
             {
-                Panel ellipse = new() { Size = new Size(width, height), Name = "Shape" + shapeCounter++ };
+                string shapeName = "Shape" + shapeCounter++;
+                Panel ellipse = new() { Size = new Size(width, height), Name = shapeName };
                 ellipse.Paint += (sender, e) =>
                 {
-                    ApplyRotation(e.Graphics, ellipse.Name, width, height);
+                    ApplyRotation(e.Graphics, shapeName, width, height);
                     e.Graphics.FillEllipse(Brushes.Green, 0, 0, width, height);
                 };
-                graphicsForm?.Controls.Add(ellipse);
-                shapes[ellipse.Name] = ellipse;
-                shapeRotations[ellipse.Name] = 0;
+
+                GraphicsWindow.drawingPanel.Controls.Add(ellipse);
+                shapes[shapeName] = ellipse;
+                shapeRotations[shapeName] = 0;
                 LastError = null;
-                return ellipse.Name;
+                return shapeName;
             }
             catch (Exception ex)
             {
@@ -109,22 +122,31 @@ namespace SmallBasicOpenEditionDll
         /// <param name="x3">X coordinate of the third point.</param>
         /// <param name="y3">Y coordinate of the third point.</param>
         /// <returns>The name of the created triangle shape.</returns>
+        /// <summary>Adds a triangle to the GraphicsWindow defined by three sets of coordinates.</summary>
         public static string? AddTriangle(int x1, int y1, int x2, int y2, int x3, int y3)
         {
+            if (GraphicsWindow.drawingPanel == null) return null;
+
             try
             {
-                Panel triangle = new() { Size = new Size((int)Math.Max(x1, Math.Max(x2, x3)), (int)Math.Max(y1, Math.Max(y2, y3))), Name = "Shape" + shapeCounter++ };
+                string shapeName = "Shape" + shapeCounter++;
+                Panel triangle = new()
+                {
+                    Size = new Size((int)Math.Max(x1, Math.Max(x2, x3)), (int)Math.Max(y1, Math.Max(y2, y3))),
+                    Name = shapeName
+                };
+
                 triangle.Paint += (sender, e) =>
                 {
-                    ApplyRotation(e.Graphics, triangle.Name, triangle.Width, triangle.Height);
+                    ApplyRotation(e.Graphics, shapeName, triangle.Width, triangle.Height);
                     e.Graphics.FillPolygon(Brushes.Red, new Point[] { new(x1, y1), new(x2, y2), new(x3, y3) });
                 };
 
-                graphicsForm?.Controls.Add(triangle);
-                shapes[triangle.Name] = triangle;
-                shapeRotations[triangle.Name] = 0;
+                GraphicsWindow.drawingPanel.Controls.Add(triangle);
+                shapes[shapeName] = triangle;
+                shapeRotations[shapeName] = 0;
                 LastError = null;
-                return triangle.Name;
+                return shapeName;
             }
             catch (Exception ex)
             {
@@ -141,20 +163,24 @@ namespace SmallBasicOpenEditionDll
         /// <returns>The name of the created line shape.</returns>
         public static string? AddLine(int x1, int y1, int x2, int y2)
         {
+            if (GraphicsWindow.drawingPanel == null) return null;
+
             try
             {
-                Panel line = new() { Size = new Size((int)Math.Max(x1, x2), (int)Math.Max(y1, y2)), Name = "Shape" + shapeCounter++ };
+                string shapeName = "Shape" + shapeCounter++;
+                Panel line = new() { Size = new Size((int)Math.Max(x1, x2), (int)Math.Max(y1, y2)), Name = shapeName };
+
                 line.Paint += (sender, e) =>
                 {
-                    ApplyRotation(e.Graphics, line.Name, line.Width, line.Height);
+                    ApplyRotation(e.Graphics, shapeName, line.Width, line.Height);
                     e.Graphics.DrawLine(Pens.Black, x1, y1, x2, y2);
                 };
 
-                graphicsForm?.Controls.Add(line);
-                shapes[line.Name] = line;
-                shapeRotations[line.Name] = 0;
+                GraphicsWindow.drawingPanel.Controls.Add(line);
+                shapes[shapeName] = line;
+                shapeRotations[shapeName] = 0;
                 LastError = null;
-                return line.Name;
+                return shapeName;
             }
             catch (Exception ex)
             {
@@ -263,7 +289,7 @@ namespace SmallBasicOpenEditionDll
         /// <param name="shapeName">The name of the shape being drawn.</param>
         /// <param name="width">The width of the shape.</param>
         /// <param name="height">The height of the shape.</param>
-        private static void ApplyRotation(Graphics g, string shapeName, int width, int height)
+        private static bool ApplyRotation(Graphics g, string shapeName, int width, int height)
         {
             if (shapeRotations.ContainsKey(shapeName) && shapeRotations[shapeName] != 0)
             {
@@ -271,7 +297,305 @@ namespace SmallBasicOpenEditionDll
                 g.TranslateTransform(width / 2, height / 2);
                 g.RotateTransform(angle);
                 g.TranslateTransform(-width / 2, -height / 2);
+                return true;
             }
+            return false;
+        }
+
+        /// <summary>Adds a text to the GraphicsWindow.</summary>
+        public static string? AddText(string text)
+        {
+            try
+            {
+                Label label = new() { Text = text, Name = "Shape" + shapeCounter++ };
+                graphicsForm?.Controls.Add(label);
+                shapes[label.Name] = label;
+                shapeRotations[label.Name] = 0;
+                LastError = null;
+                return label.Name;
+            }
+            catch (Exception ex)
+            {
+                LastError = ex.Message;
+                return null;
+            }
+        }
+
+        /// <summary>Sets the text of an existing text shape.</summary>
+        public static bool SetText(string shapeName, string text)
+        {
+            // Check if the shapeName is null or empty
+            if (string.IsNullOrEmpty(shapeName))
+            {
+                LastError = "Shape name cannot be null or empty.";
+                return false;
+            }
+            if (shapes.TryGetValue(shapeName, out var control) && control is Label label)
+            {
+                label.Text = text;
+                LastError = null;
+                return true;
+            }
+            LastError = $"Shape with name {shapeName} not found or is not a text shape.";
+            return false;
+        }
+
+        /// <summary>Removes a shape from the GraphicsWindow.</summary>
+        public static bool Remove(string shapeName)
+        {
+            // Check if the shapeName is null or empty
+            if (string.IsNullOrEmpty(shapeName))
+            {
+                LastError = "Shape name cannot be null or empty.";
+                return false;
+            }
+            if (shapes.TryGetValue(shapeName, out var control))
+            {
+                graphicsForm?.Controls.Remove(control);
+                shapes.Remove(shapeName);
+                shapeRotations.Remove(shapeName);
+                LastError = null;
+                return true;
+            }
+            LastError = $"Shape with name {shapeName} not found.";
+            return false;
+        }
+
+        /// <summary>Moves a shape to the specified x, y coordinates.</summary>
+        public static bool Move(string shapeName, int x, int y)
+        {
+            // Check if the shapeName is null or empty
+            if (string.IsNullOrEmpty(shapeName))
+            {
+                LastError = "Shape name cannot be null or empty.";
+                return false;
+            }
+            if (shapes.TryGetValue(shapeName, out var control))
+            {
+                control.Location = new Point(x, y);
+                LastError = null;
+                return true;
+            }
+            LastError = $"Shape with name {shapeName} not found.";
+            return false;
+        }
+
+        /// <summary>Animates a shape to a new position over a specified duration.</summary>
+        public static bool Animate(string shapeName, int x, int y, int duration)
+        {
+            // Check if the shapeName is null or empty
+            if (string.IsNullOrEmpty(shapeName))
+            {
+                LastError = "Shape name cannot be null or empty.";
+                return false;
+            }
+
+            if (shapes.TryGetValue(shapeName, out var control))
+            {
+                // Create a timer for animation
+                var atimer = new System.Timers.Timer(duration / 100); // Timer with interval for each step
+
+                int stepX = (x - control.Left) / 100; // Calculate step increments for X
+                int stepY = (y - control.Top) / 100; // Calculate step increments for Y
+                int steps = 100; // Number of steps in the animation
+
+                atimer.Elapsed += (s, e) =>
+                {
+                    if (steps-- > 0) // Decrement the steps counter
+                    {
+                        // Move the control step by step
+                        control.Invoke((MethodInvoker)(() =>
+                        {
+                            control.Left += stepX;
+                            control.Top += stepY;
+                        }));
+                    }
+                    else
+                    {
+                        // Stop and dispose the timer when animation is done
+                        atimer.Stop();
+                        atimer.Dispose();
+                    }
+                };
+
+                atimer.Start(); // Start the timer to begin the animation
+                LastError = null;
+                return true;
+            }
+            else
+            {
+                LastError = $"Shape with name {shapeName} not found.";
+                return false;
+            }
+        }
+
+
+        /// <summary>Gets the left coordinate of the shape.</summary>
+        public static int? GetLeft(string shapeName)
+        {
+            // Check if the shapeName is null or empty
+            if (string.IsNullOrEmpty(shapeName))
+            {
+                LastError = "Shape name cannot be null or empty.";
+                return -1;
+            }
+
+            if (shapes.TryGetValue(shapeName, out var control))
+            {
+                LastError = null;
+                return control.Left;
+            }
+            LastError = $"Shape with name {shapeName} not found.";
+            return -1;
+        }
+
+        /// <summary>Gets the top coordinate of the shape.</summary>
+        public static int? GetTop(string shapeName)
+        {
+            // Check if the shapeName is null or empty
+            if (string.IsNullOrEmpty(shapeName))
+            {
+                LastError = "Shape name cannot be null or empty.";
+                return -1;
+            }
+
+            if (shapes.TryGetValue(shapeName, out var control))
+            {
+                LastError = null;
+                return control.Top;
+            }
+            LastError = $"Shape with name {shapeName} not found.";
+            return -1;
+        }
+
+        /// <summary>Gets the opacity of a shape.</summary>
+        public static float? GetOpacity(string shapeName)
+        {
+            // Check if the shapeName is null or empty
+            if (string.IsNullOrEmpty(shapeName))
+            {
+                LastError = "Shape name cannot be null or empty.";
+                return -1;
+            }
+
+            if (shapes.TryGetValue(shapeName, out var control))
+            {
+                // Check if the shape has a tracked opacity value
+                if (shapeOpacities.TryGetValue(shapeName, out var opacity))
+                {
+                    LastError = null;
+                    return opacity; // Return the stored opacity value (0-100)
+                }
+
+                // Default opacity is 100 (fully opaque)
+                return 100f;
+            }
+
+            LastError = $"Shape with name {shapeName} not found.";
+            return -1;
+        }
+
+        /// <summary>Sets the opacity of a shape.</summary>
+        public static bool SetOpacity(string shapeName, float opacity)
+        {
+            // Check if the shapeName is null or empty
+            if (string.IsNullOrEmpty(shapeName))
+            {
+                LastError = "Shape name cannot be null or empty.";
+                return false;
+            }
+
+            // Validate opacity range
+            if (opacity < 0 || opacity > 100)
+            {
+                LastError = "Opacity must be between 0 and 100.";
+                return false;
+            }
+
+            // Check if the shape exists in the dictionary
+            if (shapes.TryGetValue(shapeName, out var control))
+            {
+                // Store the opacity value
+                shapeOpacities[shapeName] = opacity;
+
+                // Apply the opacity (only applicable for image shapes like PictureBox)
+                if (control is PictureBox pb)
+                {
+                    if (pb.Image != null)
+                    {
+                        pb.Image = SetImageOpacity(pb.Image, opacity / 100f); // Apply opacity
+                    }
+                    else
+                    {
+                        LastError = "The image for the PictureBox is null.";
+                        return false;
+                    }
+                }
+
+                LastError = null;
+                return true;
+            }
+
+            LastError = $"Shape with name {shapeName} not found.";
+            return false;
+        }
+
+        /// <summary>Applies an opacity level to an image.</summary>
+        private static Image SetImageOpacity(Image image, float opacity)
+        {
+            Bitmap bmp = new Bitmap(image.Width, image.Height);
+            Graphics gfx = Graphics.FromImage(bmp);
+
+            ColorMatrix colorMatrix = new ColorMatrix();
+            colorMatrix.Matrix33 = opacity; // Set the opacity level (alpha channel)
+
+            ImageAttributes attributes = new ImageAttributes();
+            attributes.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+
+            gfx.DrawImage(image, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, attributes);
+            gfx.Dispose();
+
+            return bmp;
+        }
+
+
+        /// <summary>Hides the shape with the specified name.</summary>
+        public static bool HideShape(string shapeName)
+        {
+			// Check if the shapeName is null or empty
+            if (string.IsNullOrEmpty(shapeName))
+            {
+                LastError = "Shape name cannot be null or empty.";
+                return false;
+            }
+			
+            if (shapes.TryGetValue(shapeName, out var control))
+            {
+                control.Visible = false;
+                LastError = null;
+                return true;
+            }
+            LastError = $"Shape with name {shapeName} not found.";
+            return false;
+        }
+
+        /// <summary>Shows the shape with the specified name.</summary>
+        public static bool ShowShape(string shapeName)
+        {
+			// Check if the shapeName is null or empty
+            if (string.IsNullOrEmpty(shapeName))
+            {
+                LastError = "Shape name cannot be null or empty.";
+                return false;
+            }
+            if (shapes.TryGetValue(shapeName, out var control))
+            {
+                control.Visible = true;
+                LastError = null;
+                return true;
+            }
+            LastError = $"Shape with name {shapeName} not found.";
+            return false;
         }
     }
 }
