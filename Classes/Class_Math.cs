@@ -151,6 +151,12 @@ namespace SmallBasicOpenEditionDll
         /// <returns>A random integer between 1 and the specified maximum number.</returns>
         public static int GetRandomNumber(int maxNumber)
         {
+            if (maxNumber < 1)
+            {
+                LastError = "Invalid parameter: '" + maxNumber + "' Parameter must be positive integer.";
+                return 0;
+            }
+            LastError = null;
             return random.Next(1, maxNumber + 1); // Use the single instance of Random
         }
 

@@ -47,6 +47,28 @@ namespace SmallBasicOpenEditionDll
         private static MediaPlayer mediaPlayer = new();
         private static bool isPlaying = false;
 
+        /// <summary>Resumes the playback of a paused audio file from the last position.</summary>
+        public static bool Continue()
+        {
+            try
+            {
+                // Check if the media player is not currently playing (IE: paused)
+                if (!isPlaying && mediaPlayer.Position != TimeSpan.Zero)
+                {
+                    // Resume playback from the paused position
+                    mediaPlayer.Play();
+                    isPlaying = true;    // Set isPlaying to true again
+                    LastError = null;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LastError = "Error continuing file: " + ex.Message;
+                return false;
+            }
+        }
+
         /// <summary>Plays the system click sound (Asterisk).</summary>
         public static void PlayClick() => SystemSounds.Asterisk.Play();
 
@@ -185,8 +207,12 @@ namespace SmallBasicOpenEditionDll
         {
             try
             {
-                mediaPlayer.Pause();
-                LastError = null;
+                if (isPlaying)
+                {
+                    mediaPlayer.Pause();
+                    isPlaying = false;  // Set isPlaying to false when paused
+                    LastError = null;
+                }
                 return true;
             }
             catch (Exception ex)
@@ -195,5 +221,6 @@ namespace SmallBasicOpenEditionDll
                 return false;
             }
         }
+
     }
 }

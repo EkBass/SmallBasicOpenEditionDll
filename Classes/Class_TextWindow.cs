@@ -171,23 +171,21 @@ namespace SmallBasicOpenEditionDll
         public static char ReadKey() => Console.ReadKey(true).KeyChar;
 
         /// <summary>Reads a number from the console window.</summary>
-        /// <returns>The number input from the console.</returns>
-        /// <exception cref="FormatException">Thrown when input is not a valid number.</exception>
+        /// <returns>The number input from the console or null if input is invalid.</returns>
         public static dynamic ReadNumber()
         {
-            while (true)
+            if (double.TryParse(Console.ReadLine(), out double number))
             {
-                if (double.TryParse(Console.ReadLine(), out double number))
-                {
-                    return number;
-                }
-                else
-                {
-                    LastError = "Invalid number received.";
-                    return false;
-                }
+                LastError = null; // Clear any previous errors
+                return number;
+            }
+            else
+            {
+                LastError = "Invalid number received.";
+                return null;
             }
         }
+
 
         /// <summary>Writes data to the console window, followed by a new line.</summary>
         /// <param name="data">The data to write.</param>

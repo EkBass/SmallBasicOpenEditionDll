@@ -111,7 +111,24 @@ namespace SmallBasicOpenEditionDll
         /// <summary>Gets the Unicode code for the specified character.</summary>
         /// <param name="character">The character to get the Unicode code for.</param>
         /// <returns>The Unicode code of the specified character.</returns>
-        public static dynamic GetCharacterCode(dynamic character) => character;
+        public static int GetCharacterCode(dynamic character)
+        {
+            string cc = (string)character;
+
+            // Ensure that the input is a single character
+            if (cc == null || cc.Length != 1)
+            {
+                LastError = "Invalid parameter passed to 'Text.GetCharacterCode'. Expecting a single character, received: " + character;
+                return 0;
+            }
+
+            // Reset any previous errors
+            LastError = null;
+
+            // Get the Unicode code of the first (and only) character
+            return (int)cc[0];
+        }
+
 
         /// <summary>Inverts the text passed as parameter.</summary>
         /// <param name="text">The text to invert.</param>
