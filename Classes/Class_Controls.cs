@@ -11,12 +11,7 @@
  * When adding a control, the class only returns the name of the control to external code, not the actual control object.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace SmallBasicOpenEditionDll
+namespace SmallBasicOpenEditionDll.Classes
 {
     /// <summary>Provides functionality to create and manage UI controls (buttons, textboxes) in the GraphicsWindow.</summary>
     public static class Controls
@@ -130,7 +125,7 @@ namespace SmallBasicOpenEditionDll
 
         /// <summary>Adds a multi-line textbox to the GraphicsWindow at the specified position.</summary>
         public static string? AddMultiLineTextBox(int left, int top)
-        { 
+        {
             int defaultSize = 200;
             return AddMultiLineTextBoxWithSize(left, top, defaultSize, defaultSize);
         }
@@ -231,9 +226,9 @@ namespace SmallBasicOpenEditionDll
         public static bool RemoveControl(string controlName)
         {
             LastError = null;
-            
+
             try
-            { 
+            {
                 if (controlList.TryGetValue(controlName, out var control))
                 {
                     if (control is Button button)
