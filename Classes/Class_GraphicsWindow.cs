@@ -1,6 +1,6 @@
 ﻿/* 
  * Project: SmallBasicOpenEditionDll
- * Language: C#
+ * Language: C# .NET 8.0
  * File: Class_GraphicsWindow.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
  * License: See license.txt
@@ -10,89 +10,46 @@
  * The window's properties, such as background color, dimensions, and resizability, can be controlled through various methods and properties.
 */
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace SmallBasicOpenEditionDll
+namespace SmallBasicOpenEditionDll.Classes
 {
     public static class GraphicsWindow
     {
-        public static Form? graphicsForm;
-        public static Panel? drawingPanel;
-        public static Graphics? graphics;
-        public static Color backgroundColor = Color.White;
-        public static Color penColor = Color.Black;
-        public static Color brushColor = Color.Black;
-        public static int penWidth = 1;
-        public static Font font = new("Arial", 12);
-        public static bool canResize = false;
 
-        // Backing fields for width and height
-        private static int _width = 800;
-        private static int _height = 600;
+        // Use a lock object for thread-safety when accessing fields
+        private static readonly object lockObj = new();
 
-        // Backing field for LastError
         private static string? _lastError;
-
-        /// <summary>Stores the last error message, if any operation fails.</summary>
+        /// <summary>Stores the last error msg as string, if any. null by default</summary>
         public static string? LastError
         {
             get => _lastError;
             set
             {
-                if (value != null)
+                lock (lockObj)
                 {
-                    _lastError = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {value}";
-                }
-                else
-                {
-                    _lastError = null;
+                    _lastError = value != null ? $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {value}" : null;
                 }
             }
         }
 
-        // Event Handling for key and mouse events
-        public static event EventHandler<KeyEventArgs>? KeyDown;
-        public static event EventHandler<KeyEventArgs>? KeyUp;
-        public static event EventHandler<MouseEventArgs>? MouseDown;
-        public static event EventHandler<MouseEventArgs>? MouseUp;
-        public static event EventHandler<MouseEventArgs>? MouseMove;
-
-        // Properties for window dimensions and colors
-        public static int Width
-        {
-            get => _width;
-            set
-            {
-                _width = value;
-                ResizeWindow();
-            }
-        }
-
-        public static int Height
-        {
-            get => _height;
-            set
-            {
-                _height = value;
-                ResizeWindow();
-            }
-        }
-
+        private static Color _backgroundColor = Color.White;
+        /// <summary>Gets or sets the background color of the graphics window.summary>
         public static string BackgroundColor
         {
-            get => backgroundColor.Name;
+            get => _backgroundColor.Name;
             set
             {
-                LastError = null;
                 try
                 {
-                    backgroundColor = Color.FromName(value);
-                    if (drawingPanel != null)
+                    lock (lockObj)
                     {
-                        drawingPanel.BackColor = backgroundColor;
+                        _backgroundColor = Color.FromName(value);
                     }
+                    if (_drawingPanel != null)
+                    {
+                        InvokeOnUIThread(() => _drawingPanel.BackColor = _backgroundColor);
+                    }
+                    LastError = null;
                 }
                 catch
                 {
@@ -101,32 +58,20 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-        public static string PenColor
-        {
-            get => penColor.Name;
-            set
-            {
-                LastError = null;
-                try
-                {
-                    penColor = Color.FromName(value);
-                }
-                catch
-                {
-                    LastError = $"Invalid pen color: {value}";
-                }
-            }
-        }
-
+        private static Color _brushColor = Color.Black;
+        /// <summary>Gets or sets the current brush color used for filling shapes in the graphics window.</summary>
         public static string BrushColor
         {
-            get => brushColor.Name;
+            get => _brushColor.Name;
             set
             {
-                LastError = null;
                 try
                 {
-                    brushColor = Color.FromName(value);
+                    lock (lockObj)
+                    {
+                        _brushColor = Color.FromName(value);
+                    }
+                    LastError = null;
                 }
                 catch
                 {
@@ -135,32 +80,125 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-        public static int PenWidth
+        private static bool _canResize = false;
+        /// <summary>
+        /// Gets or sets a value indicating whether the graphics window is resizable.
+        /// </summary>
+        /// <remarks>
+        /// If set to <c>true</c>, the window can be resized by the user; otherwise, it cannot.
+        /// </remarks>
+        public static bool CanResize
         {
-            get => penWidth;
+            get => _canResize;
             set
             {
-                LastError = null;
-                if (value > 0)
+                try
                 {
-                    penWidth = value;
+                    lock (lockObj)
+                    {
+                        _canResize = value;
+                    }
+                    LastError = null;
                 }
-                else
+                catch
+                {
+                    LastError = $"Invalid resize permission. Expecting boolean: {value}";
+                }
+            }
+        }
+
+        private static Color _penColor = Color.Black;
+        /// <summary>Gets or sets the current pen color used for drawing in the graphics window.</summary>
+        public static string PenColor
+        {
+            get => _penColor.Name;
+            set
+            {
+                try
+                {
+                    lock (lockObj)
+                    {
+                        _penColor = Color.FromName(value);
+                    }
+                    LastError = null;
+                }
+                catch
+                {
+                    LastError = $"Invalid pen color: {value}";
+                }
+            }
+        }
+
+        private static int _penWidth = 1;
+        /// <summary>Gets or sets the width of the pen used for drawing shapes in the graphics window.</summary>
+        public static int PenWidth
+        {
+            get => _penWidth;
+            set
+            {
+                try
+                {
+                    lock (lockObj)
+                    {
+                        _penWidth = value;
+                    }
+                    LastError = null;
+                }
+                catch
                 {
                     LastError = $"Invalid pen width: {value}";
                 }
             }
         }
 
-        public static string FontName
+        private static bool _fontBold = false;
+        /// <summary>
+        /// Gets or sets a value indicating whether bold text is used in the graphics window.
+        /// </summary>
+        public static bool FontBold
         {
-            get => font.Name;
+            get => _fontBold;
             set
             {
-                LastError = null;
+                lock (lockObj)
+                {
+                    _fontBold = value;
+                    _fontName = new Font(_fontName.Name, _fontName.Size, _fontBold ? FontStyle.Bold : FontStyle.Regular);
+                }
+            }
+        }
+
+
+        private static bool _fontItalic = false;
+
+        /// <summary>Gets or sets a value indicating whether italic text is used in the graphics window.</summary>
+        public static bool FontItalic
+        {
+            get => _fontItalic;
+            set
+            {
+                lock (lockObj)
+                {
+                    _fontItalic = value;
+                    _fontName = new Font(_fontName.Name, _fontName.Size, _fontItalic ? FontStyle.Italic : FontStyle.Regular);
+                }
+            }
+        }
+
+        private static Font _fontName = new("Arial", 12);
+        /// <summary>Gets or sets the name of the font used for text rendering in the graphics window.</summary>
+        public static string FontName
+        {
+            get => _fontName.Name;
+            set
+            {
                 try
                 {
-                    font = new Font(value, font.Size, font.Style);
+                    lock (lockObj)
+                    {
+                        _fontName = new Font(value, _fontName.Size, _fontName.Style);
+                    }
+                    LastError = null;
                 }
                 catch
                 {
@@ -169,56 +207,128 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
+        private static int _fontSize = 12;
+        /// <summary>Gets or sets the size of the font used for text rendering in the graphics window.</summary>
         public static int FontSize
         {
-            get => (int)font.Size;
+            get => _fontSize;
             set
             {
-                LastError = null;
-                if (value > 0)
+                try
                 {
-                    font = new Font(font.Name, value, font.Style);
+                    lock (lockObj)
+                    {
+                        _fontSize = value;
+                        _fontName = new Font(_fontName.Name, _fontSize, _fontName.Style);
+                    }
+                    LastError = null;
                 }
-                else
+                catch
                 {
                     LastError = $"Invalid font size: {value}";
                 }
             }
         }
 
-        // Show and hide the graphics window
+        private static int _height = 600;
+        /// <summary>Gets or sets the height of the graphics window. Setting this property resizes the window to the new height.</summary>
+        public static int Height
+        {
+            get => _height;
+            set
+            {
+                lock (lockObj)
+                {
+                    _height = value;
+                }
+                ResizeWindow();
+            }
+        }
+
+
+        private static string _lastKey = string.Empty;
+        /// <summary>The last key pressed in the graphics window, represented as a string.</summary>
+        public static string LastKey => _lastKey;
+
+        private static string _lastText = string.Empty;
+        /// <summary>The last text input received from the keyboard, represented as a string.</summary>
+        public static string LastText => _lastText;
+
+        private const int _left = 100;
+
+        private static int _mouseX;
+        private static int _mouseY;
+        /// <summary>The current X-coordinate of the mouse pointer within the graphics window.</summary>
+        public static int MouseX => _mouseX;
+
+        /// <summary>The current Y-coordinate of the mouse pointer within the graphics window.</summary>
+        public static int MouseY => _mouseY;
+
+        private const int _top = 100;
+
+        private static int _width = 800;
+        /// <summary>Gets or sets the width of the graphics window. Setting this property resizes the window to the new width.</summary>
+        public static int Width
+        {
+            get => _width;
+            set
+            {
+                lock (lockObj)
+                {
+                    _width = value;
+                }
+                ResizeWindow();
+            }
+        }
+
+        private static Graphics? _graphics;
+        private static Form? _graphicsForm;
+        private static Panel? _drawingPanel;
+
+        private static void GraphicsForm_MouseMove(object? sender, MouseEventArgs e)
+        {
+            lock (lockObj)
+            {
+                _mouseX = e.X;
+                _mouseY = e.Y;
+            }
+        }
+
+        /// <summary>Displays the graphics window.</summary>
+        /// <returns><c>true</c> if the window was shown successfully, otherwise <c>false</c>.</returns>
         public static bool Show()
         {
-            LastError = null;
             try
             {
-                if (graphicsForm == null)
+                if (_graphicsForm == null)
                 {
-                    graphicsForm = new Form
+                    InvokeOnUIThread(() =>
                     {
-                        Text = "Graphics Window",
-                        Size = new Size(Width, Height),
-                        FormBorderStyle = canResize ? FormBorderStyle.Sizable : FormBorderStyle.FixedDialog
-                    };
+                        _graphicsForm = new Form
+                        {
+                            Text = "Graphics Window",
+                            Size = new Size(Width, Height),
+                            FormBorderStyle = _canResize ? FormBorderStyle.Sizable : FormBorderStyle.FixedDialog,
+                            StartPosition = FormStartPosition.Manual,
+                            Location = new Point(_left, _top)
+                        };
 
-                    drawingPanel = new Panel { Dock = DockStyle.Fill, BackColor = backgroundColor };
-                    graphicsForm.Controls.Add(drawingPanel);
-                    graphicsForm.Show();
+                        _drawingPanel = new Panel { Dock = DockStyle.Fill, BackColor = _backgroundColor };
+                        _graphicsForm.Controls.Add(_drawingPanel);
+                        _graphicsForm.Show();
 
-                    graphics = drawingPanel.CreateGraphics();
+                        _graphics = _drawingPanel.CreateGraphics();
 
-                    // Attach event handlers
-                    graphicsForm.KeyDown += (s, e) => KeyDown?.Invoke(s, e);
-                    graphicsForm.KeyUp += (s, e) => KeyUp?.Invoke(s, e);
-                    drawingPanel.MouseDown += (s, e) => MouseDown?.Invoke(s, e);
-                    drawingPanel.MouseUp += (s, e) => MouseUp?.Invoke(s, e);
-                    drawingPanel.MouseMove += (s, e) => MouseMove?.Invoke(s, e);
+                        // Add event handlers for key press, text input, and mouse movement
+                        _graphicsForm.KeyDown += GraphicsForm_KeyDown;
+                        _graphicsForm.KeyPress += GraphicsForm_KeyPress;
+                        _graphicsForm.MouseMove += GraphicsForm_MouseMove;
+                    });
                 }
                 else
                 {
-                    graphicsForm.Show();
+                    InvokeOnUIThread(() => _graphicsForm.Show());
                 }
-
                 return true;
             }
             catch (Exception ex)
@@ -228,12 +338,29 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
+        // Key and Mouse Event Handlers
+        private static void GraphicsForm_KeyDown(object? sender, KeyEventArgs e)
+        {
+            lock (lockObj)
+            {
+                _lastKey = e.KeyCode.ToString();
+            }
+        }
+
+        private static void GraphicsForm_KeyPress(object? sender, KeyPressEventArgs e)
+        {
+            lock (lockObj)
+            {
+                _lastText = e.KeyChar.ToString();
+            }
+        }
+
+        /// <summary>Hides the graphics window.</summary>
         public static bool Hide()
         {
-            LastError = null;
             try
             {
-                graphicsForm?.Hide();
+                InvokeOnUIThread(() => _graphicsForm?.Hide());
                 return true;
             }
             catch (Exception ex)
@@ -243,135 +370,100 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-        // Methods to draw shapes and text
-        public static bool DrawRectangle(int x, int y, int width, int height)
-        {
-            if (!CheckGraphics()) return false;
-            LastError = null;
+        // Drawing methods
 
+        /// <summary>Draws a rectangle on the graphics window at the specified coordinates with the specified dimensions.</summary>
+        /// <param name="x">The X-coordinate of the rectangle's top-left corner.</param>
+        /// <param name="y">The Y-coordinate of the rectangle's top-left corner.</param>
+        /// <param name="width">The width of the rectangle.</param>
+        /// <param name="height">The height of the rectangle.</param>
+        public static void DrawRectangle(int x, int y, int width, int height)
+        {
             try
             {
-                using Pen pen = new(penColor, penWidth);
-                graphics?.DrawRectangle(pen, x, y, width, height);
-                return true;
+                lock (lockObj)
+                {
+                    InvokeOnUIThread(() =>
+                    {
+                        using Pen pen = new(_penColor, _penWidth);
+                        _graphics?.DrawRectangle(pen, x, y, width, height);
+                    });
+                }
             }
             catch (Exception ex)
             {
                 LastError = ex.Message;
-                return false;
             }
         }
 
-        public static bool FillRectangle(int x, int y, int width, int height)
+        /// <summary>Fills a rectangle on the graphics window at the specified coordinates with the specified dimensions.</summary>
+        /// <param name="x">The X-coordinate of the rectangle's top-left corner.</param>
+        /// <param name="y">The Y-coordinate of the rectangle's top-left corner.</param>
+        /// <param name="width">The width of the rectangle.</param>
+        /// <param name="height">The height of the rectangle.</param>
+        public static void FillRectangle(int x, int y, int width, int height)
         {
-            if (!CheckGraphics()) return false;
-
             try
             {
-                using Brush brush = new SolidBrush(brushColor);
-                graphics?.FillRectangle(brush, x, y, width, height);
-                return true;
+                lock (lockObj)
+                {
+                    InvokeOnUIThread(() =>
+                    {
+                        using SolidBrush brush = new(_brushColor);
+                        _graphics?.FillRectangle(brush, x, y, width, height);
+                    });
+                }
             }
             catch (Exception ex)
             {
                 LastError = ex.Message;
-                return false;
             }
         }
 
-        public static bool DrawEllipse(int x, int y, int width, int height)
+        /// <summary>Draws the specified text at the given coordinates on the graphics window.</summary>
+        /// <param name="text">The text to draw.</param>
+        /// <param name="x">The X-coordinate of the text's starting position.</param>
+        /// <param name="y">The Y-coordinate of the text's starting position.</param>
+        public static void DrawText(string text, int x, int y)
         {
-            if (!CheckGraphics()) return false;
-
             try
             {
-                using Pen pen = new(penColor, penWidth);
-                graphics?.DrawEllipse(pen, x, y, width, height);
-                return true;
+                lock (lockObj)
+                {
+                    InvokeOnUIThread(() =>
+                    {
+                        using SolidBrush brush = new(_penColor);
+                        _graphics?.DrawString(text, _fontName, brush, x, y);
+                    });
+                }
             }
             catch (Exception ex)
             {
                 LastError = ex.Message;
-                return false;
             }
         }
 
-        public static bool FillEllipse(int x, int y, int width, int height)
+        private static void ResizeWindow()
         {
-            if (!CheckGraphics()) return false;
+            if (_graphicsForm == null) return;
 
-            try
+            InvokeOnUIThread(() =>
             {
-                using Brush brush = new SolidBrush(brushColor);
-                graphics?.FillEllipse(brush, x, y, width, height);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                LastError = ex.Message;
-                return false;
-            }
+                _graphicsForm.Size = new Size(_width, _height);
+                _graphicsForm.Refresh();
+            });
         }
 
-        public static bool DrawText(int x, int y, string text)
+        // Helper method for thread-safe UI invocation
+        private static void InvokeOnUIThread(Action action)
         {
-            if (!CheckGraphics()) return false;
-
-            try
+            if (_graphicsForm?.InvokeRequired == true)
             {
-                using Brush brush = new SolidBrush(penColor);
-                graphics?.DrawString(text, font, brush, x, y);
-                return true;
+                _graphicsForm.Invoke(action);
             }
-            catch (Exception ex)
+            else
             {
-                LastError = ex.Message;
-                return false;
-            }
-        }
-
-        public static bool Clear()
-        {
-            if (!CheckGraphics()) return false;
-
-            try
-            {
-                graphics?.Clear(backgroundColor);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                LastError = ex.Message;
-                return false;
-            }
-        }
-
-        // Private utility methods
-        private static bool CheckGraphics()
-        {
-            if (graphics == null)
-            {
-                LastError = "Graphics object is not initialized.";
-                return false;
-            }
-            return true;
-        }
-
-        private static bool ResizeWindow()
-        {
-            if (graphicsForm == null) return false;
-            LastError = null;
-
-            try
-            {
-                graphicsForm.Size = new Size(_width, _height);
-                graphicsForm.Refresh();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                LastError = ex.Message;
-                return false;
+                action();
             }
         }
     }

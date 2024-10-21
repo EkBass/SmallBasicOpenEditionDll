@@ -1,6 +1,6 @@
 ﻿/* 
  * Project: SmallBasicOpenEditionDll
- * Language: C#
+ * Language: C# .NET 8.0
  * File: Class_Timer.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
  * License: See license.txt
@@ -9,10 +9,9 @@
  * Provides functionality for creating and controlling a timer, including setting intervals, pausing, and resuming the timer.
  */
 
-using System;
 using System.Timers;
 
-namespace SmallBasicOpenEditionDll
+namespace SmallBasicOpenEditionDll.Classes
 {
     /// <summary>Provides functionality for creating and controlling a timer, including setting intervals, pausing, and resuming the timer.</summary>
     public static class Timer
@@ -38,8 +37,8 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-
-        private static System.Timers.Timer _timer = new();
+        // Mark the timer as readonly since it is initialized only once
+        private static readonly System.Timers.Timer _timer = new();
         private static bool _isPaused = false;
 
         /// <summary>Event that is triggered when the timer ticks based on the specified interval.</summary>
@@ -127,9 +126,10 @@ namespace SmallBasicOpenEditionDll
         /// <summary>Event handler that is triggered when the timer's Elapsed event occurs. This method invokes the <see cref="Tick"/> event.</summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="ElapsedEventArgs"/> that contains the event data.</param>
-        private static void OnTimerElapsed(object sender, ElapsedEventArgs e)
+        private static void OnTimerElapsed(object? sender, ElapsedEventArgs e)
         {
             Tick?.Invoke();
         }
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿/* 
  * Project: SmallBasicOpenEditionDll
- * Language: C#
+ * Language: C# .NET 8.0
  * File: Class_Mouse.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
  * License: See license.txt
@@ -10,13 +10,14 @@
  */
 
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
-namespace SmallBasicOpenEditionDll
+namespace SmallBasicOpenEditionDll.Classes
 {
     public static class Mouse
     {
-        [DllImport("user32.dll")]
+
+        #pragma warning disable SYSLIB1054
+        [DllImport("user32.dll", SetLastError = true)]
         private static extern int ShowCursor(bool bShow);
 
         /// <summary>Gets or sets the X coordinate of the mouse cursor on the screen.</summary>
@@ -37,9 +38,22 @@ namespace SmallBasicOpenEditionDll
 
         public static bool IsRightButtonDown => Control.MouseButtons.HasFlag(MouseButtons.Right);
 
-        public static void HideCursor() => ShowCursor(false);
+        public static void HideCursor()
+        {
+            int result = ShowCursor(false);
+            if (result < 0)
+            {
+                // Optionally log or handle this error
+            }
+        }
 
-        public static void ShowCursor() => ShowCursor(true);
+        public static void ShowCursor()
+        {
+            int result = ShowCursor(true);
+            if (result < 0)
+            {
+                // Optionally log or handle this error
+            }
+        }
     }
 }
-

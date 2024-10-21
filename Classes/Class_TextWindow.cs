@@ -1,6 +1,6 @@
 ﻿/* 
  * Project: SmallBasicOpenEditionDll
- * Language: C#
+ * Language: C# .NET 8.0
  * File: Class_TextWindow.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
  * License: See license.txt
@@ -11,10 +11,10 @@
 
 
 using System.Runtime.InteropServices;
-using System;
-namespace SmallBasicOpenEditionDll
+
+namespace SmallBasicOpenEditionDll.Classes
 {
-    public static class TextWindow
+    public static partial class TextWindow
     {
         // Backing field for LastError
         private static string? _lastError;
@@ -40,22 +40,21 @@ namespace SmallBasicOpenEditionDll
 
         // PInvoke constants for window states
         private const int SW_HIDE = 0;
-        //private const int SW_SHOW = 5;
-        //private const int SW_MINIMIZE = 6;
-        //private const int SW_MAXIMIZE = 3;
         private const int SW_RESTORE = 9;
 
-        // PInvoke function for ShowWindow
-        [DllImport("user32.dll")]
-            private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        // LibraryImport for ShowWindow
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
-        // PInvoke function to check the window's visibility
-        [DllImport("user32.dll")]
-            private static extern bool IsWindowVisible(IntPtr hWnd);
+        // LibraryImport for IsWindowVisible
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool IsWindowVisible(IntPtr hWnd);
 
-        // PInvoke function for getting the console window handle
-        [DllImport("kernel32.dll", SetLastError = true)]
-            private static extern IntPtr GetConsoleWindow();
+        // LibraryImport for GetConsoleWindow
+        [LibraryImport("kernel32.dll", SetLastError = true)]
+        private static partial IntPtr GetConsoleWindow();
 
         private static ConsoleColor _foregroundColor = Console.ForegroundColor;
         private static ConsoleColor _backgroundColor = Console.BackgroundColor;
@@ -66,8 +65,8 @@ namespace SmallBasicOpenEditionDll
             get => _foregroundColor;
             set
             {
-                    _foregroundColor = value;
-                    Console.ForegroundColor = value;
+                _foregroundColor = value;
+                Console.ForegroundColor = value;
             }
         }
 
@@ -78,8 +77,8 @@ namespace SmallBasicOpenEditionDll
             get => _backgroundColor;
             set
             {
-                    _backgroundColor = value;
-                    Console.BackgroundColor = value;
+                _backgroundColor = value;
+                Console.BackgroundColor = value;
             }
         }
 
@@ -108,7 +107,7 @@ namespace SmallBasicOpenEditionDll
         public static bool Show()
         {
             try
-            { 
+            {
                 IntPtr handle = GetConsoleWindow();
                 ShowWindow(handle, SW_RESTORE);
                 LastError = null;
@@ -124,8 +123,8 @@ namespace SmallBasicOpenEditionDll
         /// <summary>Hides the text window.</summary>
         public static bool Hide()
         {
-            try 
-            { 
+            try
+            {
                 IntPtr handle = GetConsoleWindow();
                 ShowWindow(handle, SW_HIDE);
                 LastError = null;
@@ -172,7 +171,7 @@ namespace SmallBasicOpenEditionDll
 
         /// <summary>Reads a number from the console window.</summary>
         /// <returns>The number input from the console or null if input is invalid.</returns>
-        public static dynamic ReadNumber()
+        public static dynamic? ReadNumber()
         {
             if (double.TryParse(Console.ReadLine(), out double number))
             {
@@ -212,3 +211,18 @@ namespace SmallBasicOpenEditionDll
         }
     }
 }
+
+/*
+[messages]
+Severity	Code	Description	Project	File	Line	Suppression State
+Message (active)	SYSLIB1054	Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time	SmallBasicOpenEditionDll	C:\Users\ekvir\source\repos\SmallBasicOpenEditionDll\Classes\Class_TextWindow.cs	50	
+
+Severity	Code	Description	Project	File	Line	Suppression State
+Message (active)	SYSLIB1054	Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time	SmallBasicOpenEditionDll	C:\Users\ekvir\source\repos\SmallBasicOpenEditionDll\Classes\Class_TextWindow.cs	54	
+
+Severity	Code	Description	Project	File	Line	Suppression State
+Message (active)	SYSLIB1054	Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time	SmallBasicOpenEditionDll	C:\Users\ekvir\source\repos\SmallBasicOpenEditionDll\Classes\Class_TextWindow.cs	58	
+
+
+
+*/

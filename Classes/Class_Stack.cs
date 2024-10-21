@@ -1,6 +1,6 @@
 ﻿/* 
  * Project: SmallBasicOpenEditionDll
- * Language: C#
+ * Language: C# .NET 8.0
  * File: Class_Stack.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
  * License: See license.txt
@@ -12,34 +12,31 @@
 using System;
 using System.Collections.Generic;
 
-namespace SmallBasicOpenEditionDll
+namespace SmallBasicOpenEditionDll.Classes
 {
     /// <summary>Provides methods to create and manage multiple stacks, identified by name, allowing values to be pushed and popped.</summary>
     public static class Stack
     {
-        // Backing field for LastError
         private static string? _lastError;
 
-        /// <summary>Stores the last error message, if any operation fails.</summary>
         public static string? LastError
         {
             get => _lastError;
             set
             {
-                // Only add a timestamp if the value is not null
                 if (value != null)
                 {
                     _lastError = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {value}";
                 }
                 else
                 {
-                    _lastError = null;  // Set to null without timestamp
+                    _lastError = null;
                 }
             }
         }
 
-
-        // Dictionary to store multiple stacks, each identified by a name
+        // Dictionary to store multiple stacks, identified by name
+        #pragma warning disable IDE0044
         private static Dictionary<string, Stack<object>> stacks = [];
 
         /// <summary>Pushes a value onto the specified stack. If the stack does not exist, it is created.</summary>
@@ -49,14 +46,14 @@ namespace SmallBasicOpenEditionDll
         {
             try
             {
-                if (!stacks.ContainsKey(stackName))
+                // Use TryGetValue to avoid redundant lookup
+                if (!stacks.TryGetValue(stackName, out Stack<object>? stack))
                 {
-                    // If the stack doesn't exist, create it
-                    stacks[stackName] = new Stack<object>();
+                    stack = new Stack<object>();
+                    stacks[stackName] = stack;
                 }
-                // Push the value onto the stack
-                stacks[stackName].Push(value);
 
+                stack.Push(value);
                 LastError = null;
                 return true;
             }
@@ -70,12 +67,12 @@ namespace SmallBasicOpenEditionDll
         /// <summary>Gets the number of items in the specified stack.</summary>
         /// <param name="stackName">The name of the stack to get the count of items from.</param>
         /// <returns>The number of items in the stack.</returns>
-        /// <exception cref="ArgumentException">Thrown if the specified stack does not exist.</exception>
         public static int GetCount(string stackName)
         {
-            if (stacks.ContainsKey(stackName))
+            // Use TryGetValue to avoid multiple lookups
+            if (stacks.TryGetValue(stackName, out Stack<object>? stack))
             {
-                return stacks[stackName].Count;
+                return stack.Count;
             }
             else
             {
@@ -87,13 +84,13 @@ namespace SmallBasicOpenEditionDll
         /// <summary>Pops the top value from the specified stack.</summary>
         /// <param name="stackName">The name of the stack to pop the value from.</param>
         /// <returns>The value popped from the top of the stack.</returns>
-        /// <exception cref="InvalidOperationException">Thrown if the stack is either empty or does not exist.</exception>
         public static object? PopValue(string stackName)
         {
-            if (stacks.ContainsKey(stackName) && stacks[stackName].Count > 0)
+            // Use TryGetValue to avoid redundant lookup
+            if (stacks.TryGetValue(stackName, out Stack<object>? stack) && stack.Count > 0)
             {
                 LastError = null;
-                return stacks[stackName].Pop();
+                return stack.Pop();
             }
             else
             {
@@ -104,12 +101,12 @@ namespace SmallBasicOpenEditionDll
 
         /// <summary>Removes the stack with the specified name from the dictionary.</summary>
         /// <param name="stackName">The name of the stack to remove.</param>
-        /// <returns>True if removed with succes, other false.</returns>
+        /// <returns>True if removed with success, otherwise false.</returns>
         public static bool RemoveStack(string stackName)
         {
-            if (stacks.ContainsKey(stackName))
+            // Remove the ContainsKey check, since Remove handles this internally
+            if (stacks.Remove(stackName))
             {
-                stacks.Remove(stackName); // Remove the stack by name
                 LastError = null;
                 return true;
             }

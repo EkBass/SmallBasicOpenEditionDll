@@ -1,6 +1,6 @@
 ﻿/* 
  * Project: SmallBasicOpenEditionDll
- * Language: C#
+ * Language: C# .NET 8.0
  * File: Class_ImageList.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
  * License: See license.txt
@@ -10,15 +10,11 @@
  * It maintains an internal dictionary (images) that associates each image with a unique name, allowing efficient access to the stored images.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Net.Http;
-using System.Threading.Tasks;
-
-namespace SmallBasicOpenEditionDll
+namespace SmallBasicOpenEditionDll.Classes
 {
+    /// <summary>ImageList class provides methods to load, store, and retrieve images from local file paths or URLs.</summary>
     public static class ImageList
     {
         // Backing field for LastError
@@ -44,7 +40,8 @@ namespace SmallBasicOpenEditionDll
 
 
         // Dictionary to store loaded images
-        private static Dictionary<string, Image> images = new();
+        #pragma warning disable IDE0044
+        private static Dictionary<string, Image> images = [];
         private static int imageCounter = 0;
 
         // HttpClient instance (should be reused for better performance)

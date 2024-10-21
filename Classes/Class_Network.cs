@@ -1,6 +1,6 @@
 ﻿/* 
  * Project: SmallBasicOpenEditionDll
- * Language: C#
+ * Language: C# .NET 8.0
  * File: Class_Network.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
  * License: See license.txt
@@ -9,12 +9,10 @@
  * Provides methods to perform network operations, such as downloading files and retrieving web page contents.
  */
 
-using System;
 using System.IO;
 using System.Net.Http;
-using System.Threading.Tasks;
 
-namespace SmallBasicOpenEditionDll
+namespace SmallBasicOpenEditionDll.Classes
 {
     /// <summary>
     /// Provides methods to perform network operations, such as downloading files and retrieving web page contents.

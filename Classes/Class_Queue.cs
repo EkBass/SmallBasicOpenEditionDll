@@ -1,6 +1,6 @@
-/* 
+﻿/* 
  * Project: SmallBasicOpenEditionDll
- * Language: C#
+ * Language: C# .NET 8.0
  * File: Class_Queue.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
  * License: See license.txt
@@ -9,54 +9,44 @@
  * Provides methods to create and manage multiple queues, identified by name, allowing values to be enqueued and dequeued.
  */
 
-using System;
-using System.Collections.Generic;
-
-namespace SmallBasicOpenEditionDll
+namespace SmallBasicOpenEditionDll.Classes
 {
-    /// <summary>Provides methods to create and manage multiple queues, identified by name, allowing values to be enqueued and dequeued.</summary>
     public static class Queue
     {
-        // Backing field for LastError
         private static string? _lastError;
 
-        /// <summary>Stores the last error message, if any operation fails.</summary>
         public static string? LastError
         {
             get => _lastError;
             set
             {
-                // Only add a timestamp if the value is not null
                 if (value != null)
                 {
                     _lastError = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {value}";
                 }
                 else
                 {
-                    _lastError = null;  // Set to null without timestamp
+                    _lastError = null;
                 }
             }
         }
 
-
-        // Dictionary to store multiple queues, each identified by a name
+        // Dictionary to store multiple queues
+        #pragma warning disable IDE0044
         private static Dictionary<string, Queue<object>> queues = [];
 
-        /// <summary>Enqueues a value into the specified queue. If the queue does not exist, it is created.</summary>
-        /// <param name="queueName">The name of the queue to enqueue the value into.</param>
-        /// <param name="value">The value to enqueue into the queue.</param>
         public static bool EnqueueValue(string queueName, object value)
         {
             try
             {
-                if (!queues.ContainsKey(queueName))
+                // Use TryGetValue to check if the queue exists
+                if (!queues.TryGetValue(queueName, out Queue<object>? queue))
                 {
-                    // If the queue doesn't exist, create it
-                    queues[queueName] = new Queue<object>();
+                    queue = new Queue<object>();
+                    queues[queueName] = queue;
                 }
-                // Enqueue the value into the queue
-                queues[queueName].Enqueue(value);
 
+                queue.Enqueue(value);
                 LastError = null;
                 return true;
             }
@@ -67,15 +57,12 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-        /// <summary>Gets the number of items in the specified queue.</summary>
-        /// <param name="queueName">The name of the queue to get the count of items from.</param>
-        /// <returns>The number of items in the queue.</returns>
-        /// <exception cref="ArgumentException">Thrown if the specified queue does not exist.</exception>
         public static int GetCount(string queueName)
         {
-            if (queues.ContainsKey(queueName))
+            // Use TryGetValue to avoid extra lookup
+            if (queues.TryGetValue(queueName, out Queue<object>? queue))
             {
-                return queues[queueName].Count;
+                return queue.Count;
             }
             else
             {
@@ -84,16 +71,13 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-        /// <summary>Dequeues the front value from the specified queue.</summary>
-        /// <param name="queueName">The name of the queue to dequeue the value from.</param>
-        /// <returns>The value dequeued from the front of the queue.</returns>
-        /// <exception cref="InvalidOperationException">Thrown if the queue is either empty or does not exist.</exception>
         public static object? DequeueValue(string queueName)
         {
-            if (queues.ContainsKey(queueName) && queues[queueName].Count > 0)
+            // Use TryGetValue to check if the queue exists and is not empty
+            if (queues.TryGetValue(queueName, out Queue<object>? queue) && queue.Count > 0)
             {
                 LastError = null;
-                return queues[queueName].Dequeue();
+                return queue.Dequeue();
             }
             else
             {
@@ -102,14 +86,11 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-        /// <summary>Removes the queue with the specified name from the dictionary.</summary>
-        /// <param name="queueName">The name of the queue to dequeue the value from.</param>
-        /// <returns>True if removed with succes, other false.</returns>
         public static bool RemoveQueue(string queueName)
         {
-            if (queues.ContainsKey(queueName))
+            // Remove the ContainsKey check as Dictionary.Remove handles non-existent keys
+            if (queues.Remove(queueName))
             {
-                queues.Remove(queueName); // Remove the stack by name
                 LastError = null;
                 return true;
             }

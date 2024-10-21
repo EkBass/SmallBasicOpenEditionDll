@@ -1,6 +1,6 @@
 ﻿/* 
  * Project: SmallBasicOpenEditionDll
- * Language: C#
+ * Language: C# .NET 8.0
  * File: Class_Text.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
  * License: See license.txt
@@ -9,10 +9,7 @@
  * Provides methods for performing text manipulations such as concatenation, searching, case conversion, and substring operations.
  */
 
-using System;
-using System.Linq;
-
-namespace SmallBasicOpenEditionDll
+namespace SmallBasicOpenEditionDll.Classes
 {
     /// <summary>
     /// Provides methods for performing text manipulations such as concatenation, searching, case conversion, and substring operations.

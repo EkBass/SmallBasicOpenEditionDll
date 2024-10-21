@@ -1,6 +1,6 @@
 ﻿/* 
  * Project: SmallBasicOpenEditionDll
- * Language: C#
+ * Language: C# .NET 8.0
  * File: Class_file.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
  * License: See license.txt
@@ -8,12 +8,8 @@
  * Description:
  * Provides methods for file and directory operations, such as reading, writing, copying, and deleting files.
   */
-
-using System;
 using System.IO;
-using System.Linq;
-
-namespace SmallBasicOpenEditionDll
+namespace SmallBasicOpenEditionDll.Classes
 {
     /// <summary>Provides methods for file and directory operations, such as reading, writing, copying, and deleting files.</summary>
     public static class File

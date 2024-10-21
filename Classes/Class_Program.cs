@@ -1,6 +1,6 @@
 ﻿/* 
  * Project: SmallBasicOpenEditionDll
- * Language: C#
+ * Language: C# .NET 8.0
  * File: Class_Program.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
  * License: See license.txt
@@ -9,10 +9,7 @@
  * Provides methods and properties related to the execution of the program, including command-line argument handling delays, and termination.
  */
 
-using System;
-using System.Threading;
-
-namespace SmallBasicOpenEditionDll
+namespace SmallBasicOpenEditionDll.Classes
 {
     /// <summary>Provides methods and properties related to the execution of the program, including command-line argument handling, delays, and termination.</summary>
     public static class Program
@@ -78,12 +75,12 @@ namespace SmallBasicOpenEditionDll
         {
             int foo = ArgumentCount();
 
-            if(index <= 0 || index > foo)
+            if (index <= 0 || index > foo)
             {
                 LastError = "Invalid argument index.";
                 return null;
             }
-            
+
             LastError = null;
             string[] args = Environment.GetCommandLineArgs();
             return index < 0 || index >= args.Length ? "" : args[index];

@@ -1,6 +1,6 @@
 ﻿/* 
  * Project: SmallBasicOpenEditionDll
- * Language: C#
+ * Language: C# .NET 8.0
  * File: Class_Sound.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
  * Last date: 13th October 2024
@@ -10,12 +10,10 @@
  * Provides methods for playing system sounds and audio files, as well as controlling playback such as stopping, pausing, and waiting for playback to complete.
  */
 
-using System;
 using System.Media;
 using System.Windows.Media;
-using System.Threading;
 
-namespace SmallBasicOpenEditionDll
+namespace SmallBasicOpenEditionDll.Classes
 {
     /// <summary>
     /// Provides methods for playing system sounds and audio files, as well as controlling playback such as stopping, pausing, and waiting for playback to complete.
@@ -43,7 +41,7 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-
+        #pragma warning disable IDE0044
         private static MediaPlayer mediaPlayer = new();
         private static bool isPlaying = false;
 
@@ -224,3 +222,13 @@ namespace SmallBasicOpenEditionDll
 
     }
 }
+
+
+/*
+ * Severity	Code	Description	Project	File	Line	Suppression State
+Error (active)	CS0234	The type or namespace name 'Media' does not exist in the namespace 'System.Windows' (are you missing an assembly reference?)	SmallBasicOpenEditionDll	C:\Users\ekvir\source\repos\SmallBasicOpenEditionDll\Classes\Class_Sound.cs	15	
+
+Severity	Code	Description	Project	File	Line	Suppression State
+Error (active)	CS0246	The type or namespace name 'MediaPlayer' could not be found (are you missing a using directive or an assembly reference?)	SmallBasicOpenEditionDll	C:\Users\ekvir\source\repos\SmallBasicOpenEditionDll\Classes\Class_Sound.cs	47	
+
+*/

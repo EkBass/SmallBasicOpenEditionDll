@@ -1,6 +1,6 @@
 ﻿/* 
  * Project: SmallBasicOpenEditionDll
- * Language: C#
+ * Language: C# .NET 8.0
  * File: Class_Math.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
  * License: See license.txt
@@ -10,9 +10,7 @@
  * Operations include basic arithmetic, trigonometric calculations, logarithms, rounding, and random number generation.
  * */
 
-using System;
-
-namespace SmallBasicOpenEditionDll
+namespace SmallBasicOpenEditionDll.Classes
 {
     /// <summary>
     /// Provides mathematical functions and constants, including basic arithmetic operations,

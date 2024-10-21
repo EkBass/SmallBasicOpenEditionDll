@@ -1,6 +1,6 @@
 ﻿/* 
  * Project: SmallBasicOpenEditionDll
- * Language: C#
+ * Language: C# .NET 8.0
  * File: Class_Desktop.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
  * License: See license.txt
@@ -10,13 +10,11 @@
  * The class uses SystemParametersInfo function from user32.dll to change the wallpaper.
  */
 
-using System;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
-namespace SmallBasicOpenEditionDll
+namespace SmallBasicOpenEditionDll.Classes
 {
-    public static class Desktop
+    public static partial class Desktop
     {
         // Backing field for LastError
         private static string? _lastError;
@@ -39,10 +37,9 @@ namespace SmallBasicOpenEditionDll
             }
         }
 
-
-        // User32.dll import for setting wallpaper
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        private static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+        // User32.dll import for setting wallpaper using LibraryImport
+        [LibraryImport("user32.dll", StringMarshalling = StringMarshalling.Utf16, SetLastError = true)]
+        private static partial int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
 
         private const int SPI_SETDESKWALLPAPER = 20;
         private const int SPIF_UPDATEINIFILE = 0x01;
@@ -55,7 +52,7 @@ namespace SmallBasicOpenEditionDll
         public static int Height => Screen.PrimaryScreen != null ? Screen.PrimaryScreen.Bounds.Height : 0;
 
         /// <summary>Sets the desktop wallpaper to the specified file path or URL.</summary>
-        public static bool SetWallpaper(string fileOrUrl) 
+        public static bool SetWallpaper(string fileOrUrl)
         {
             LastError = null;
 

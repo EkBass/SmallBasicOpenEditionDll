@@ -1,6 +1,6 @@
 ﻿/* 
  * Project: SmallBasicOpenEditionDll
- * Language: C#
+ * Language: C# .NET 8.0
  * File: Class_Clock.cs
  * Author: Kristian Virtanen, krisu.virtanen@gmail.com
  * License: See license.txt
@@ -9,9 +9,7 @@
  * The Clock class provides access to the system's date and time, offering properties to retrieve current time, date, and related information in different formats.
  */
 
-using System;
-
-namespace SmallBasicOpenEditionDll
+namespace SmallBasicOpenEditionDll.Classes
 {
     /// <summary>Provides access to the system clock to retrieve the current time, date, and related information.</summary>
     public static class Clock
