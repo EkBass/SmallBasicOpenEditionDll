@@ -9,9 +9,6 @@
  * Provides methods to create and manage multiple stacks, identified by name, allowing values to be pushed and popped.
  */
 
-using System;
-using System.Collections.Generic;
-
 namespace SmallBasicOpenEditionDll.Classes
 {
     /// <summary>Provides methods to create and manage multiple stacks, identified by name, allowing values to be pushed and popped.</summary>
@@ -36,8 +33,7 @@ namespace SmallBasicOpenEditionDll.Classes
         }
 
         // Dictionary to store multiple stacks, identified by name
-        #pragma warning disable IDE0044
-        private static Dictionary<string, Stack<object>> stacks = [];
+        private static readonly Dictionary<string, Stack<object>> stacks = [];
 
         /// <summary>Pushes a value onto the specified stack. If the stack does not exist, it is created.</summary>
         /// <param name="stackName">The name of the stack to push the value onto.</param>

@@ -40,8 +40,7 @@ namespace SmallBasicOpenEditionDll.Classes
 
 
         // Dictionary to store loaded images
-        #pragma warning disable IDE0044
-        private static Dictionary<string, Image> images = [];
+        private static readonly Dictionary<string, Image> images = [];
         private static int imageCounter = 0;
 
         // HttpClient instance (should be reused for better performance)

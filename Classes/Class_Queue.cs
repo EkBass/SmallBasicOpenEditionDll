@@ -32,8 +32,7 @@ namespace SmallBasicOpenEditionDll.Classes
         }
 
         // Dictionary to store multiple queues
-        #pragma warning disable IDE0044
-        private static Dictionary<string, Queue<object>> queues = [];
+        private static readonly Dictionary<string, Queue<object>> queues = [];
 
         public static bool EnqueueValue(string queueName, object value)
         {

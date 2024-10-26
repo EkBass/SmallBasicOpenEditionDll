@@ -8,6 +8,7 @@
  * Description:
  * Provides methods for file and directory operations, such as reading, writing, copying, and deleting files.
   */
+
 using System.IO;
 namespace SmallBasicOpenEditionDll.Classes
 {
@@ -36,7 +37,7 @@ namespace SmallBasicOpenEditionDll.Classes
         }
 
 
-        /// <summary>Reads the entire contents of a file.</summary>
+        /// <summary>Reads the contents of a file.</summary>
         public static string? ReadContents(string filePath)
         {
             LastError = null;
@@ -51,7 +52,7 @@ namespace SmallBasicOpenEditionDll.Classes
             }
         }
 
-        /// <summary>Writes the specified contents to a file, overwriting the file if it exists.</summary>
+        /// <summary>Writes the contents to a file, overwriting the file if it exists.</summary>
         public static bool WriteContents(string filePath, string contents)
         {
             LastError = null;

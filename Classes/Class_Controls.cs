@@ -49,7 +49,7 @@ namespace SmallBasicOpenEditionDll.Classes
         // Checks is Panel available.
         private static bool IsGraphicsWindowInitialized()
         {
-            if (GraphicsWindow.drawingPanel == null)
+            if (GraphicsWindow.DrawingPanel == null)
             {
                 LastError = "Graphics window is not initialized.";
                 return false;
@@ -59,7 +59,8 @@ namespace SmallBasicOpenEditionDll.Classes
 
 
         // Initialize control list
-        private static Dictionary<string, Control> controlList = [];
+        private static readonly Dictionary<string, Control> controlList = [];
+
 
         // Nullable reference types to store the last interacted controls
         private static Button? lastClickedButton = null;
@@ -90,8 +91,17 @@ namespace SmallBasicOpenEditionDll.Classes
                 button.Click += (s, e) => { lastClickedButton = button; ButtonClicked?.Invoke(button, EventArgs.Empty); };
                 controlList[button.Name] = button;
 
-                GraphicsWindow.drawingPanel.Controls.Add(button);
-                return button.Name;
+                // Null check to avoid potential null reference
+                if (GraphicsWindow.DrawingPanel != null)
+                {
+                    GraphicsWindow.DrawingPanel.Controls.Add(button);
+                    return button.Name;
+                }
+                else
+                {
+                    LastError = "GraphicsWindow DrawingPanel is not initialized.";
+                    return null;
+                }
             }
             catch (Exception ex)
             {
@@ -113,8 +123,17 @@ namespace SmallBasicOpenEditionDll.Classes
                 textBox.TextChanged += (s, e) => { lastTypedTextBox = textBox; TextTyped?.Invoke(textBox, EventArgs.Empty); };
                 controlList[textBox.Name] = textBox;
 
-                GraphicsWindow.drawingPanel.Controls.Add(textBox);
-                return textBox.Name;
+                // Null check to avoid potential null reference
+                if (GraphicsWindow.DrawingPanel != null)
+                {
+                    GraphicsWindow.DrawingPanel.Controls.Add(textBox);
+                    return textBox.Name;
+                }
+                else
+                {
+                    LastError = "GraphicsWindow DrawingPanel is not initialized.";
+                    return null;
+                }
             }
             catch (Exception ex)
             {
@@ -149,8 +168,18 @@ namespace SmallBasicOpenEditionDll.Classes
                 textBox.TextChanged += (s, e) => { lastTypedTextBox = textBox; TextTyped?.Invoke(textBox, EventArgs.Empty); };
                 controlList[textBox.Name] = textBox;
 
-                GraphicsWindow.drawingPanel.Controls.Add(textBox);
-                return textBox.Name;
+                // Null check 
+                if (GraphicsWindow.DrawingPanel != null)
+                {
+                    GraphicsWindow.DrawingPanel.Controls.Add(textBox);
+                    return textBox.Name;
+                }
+                else
+                {
+                    LastError = "GraphicsWindow DrawingPanel is not initialized.";
+                    return null;
+                }
+
             }
             catch (Exception ex)
             {
@@ -223,6 +252,7 @@ namespace SmallBasicOpenEditionDll.Classes
             }
         }
 
+        /// <summary>Remove control</summary>
         public static bool RemoveControl(string controlName)
         {
             LastError = null;
@@ -239,10 +269,19 @@ namespace SmallBasicOpenEditionDll.Classes
                     {
                         textBox.TextChanged -= (s, e) => { lastTypedTextBox = textBox; TextTyped?.Invoke(textBox, EventArgs.Empty); };
                     }
+                    // Null check to avoid potential null reference
+                    if (GraphicsWindow.DrawingPanel != null)
+                    {
+                        GraphicsWindow.DrawingPanel.Controls.Remove(control);
+                        controlList.Remove(controlName);
+                        return true;
+                    }
+                    else
+                    {
+                        LastError = "GraphicsWindow DrawingPanel is not initialized.";
+                        return false;
+                    }
 
-                    GraphicsWindow.drawingPanel.Controls.Remove(control);
-                    controlList.Remove(controlName);
-                    return true;
                 }
                 else
                 {
