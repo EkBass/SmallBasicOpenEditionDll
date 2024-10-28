@@ -211,18 +211,3 @@ namespace SmallBasicOpenEditionDll.Classes
         }
     }
 }
-
-/*
-[messages]
-Severity	Code	Description	Project	File	Line	Suppression State
-Message (active)	SYSLIB1054	Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time	SmallBasicOpenEditionDll	C:\Users\ekvir\source\repos\SmallBasicOpenEditionDll\Classes\Class_TextWindow.cs	50	
-
-Severity	Code	Description	Project	File	Line	Suppression State
-Message (active)	SYSLIB1054	Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time	SmallBasicOpenEditionDll	C:\Users\ekvir\source\repos\SmallBasicOpenEditionDll\Classes\Class_TextWindow.cs	54	
-
-Severity	Code	Description	Project	File	Line	Suppression State
-Message (active)	SYSLIB1054	Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time	SmallBasicOpenEditionDll	C:\Users\ekvir\source\repos\SmallBasicOpenEditionDll\Classes\Class_TextWindow.cs	58	
-
-
-
-*/

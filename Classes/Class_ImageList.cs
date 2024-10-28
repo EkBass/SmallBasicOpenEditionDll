@@ -49,7 +49,7 @@ namespace SmallBasicOpenEditionDll.Classes
         /// <summary>Loads an image from a file path or a URL.</summary>
         /// <param name="fileNameOrUrl">The file path or URL of the image to load.</param>
         /// <returns>The name of the image, which can be used to reference the loaded image in other methods, or an empty string if the image could not be loaded.</returns>
-        public static string LoadImage(string fileNameOrUrl)
+        public static string? LoadImage(string fileNameOrUrl)
         {
             return LoadImageAsync(fileNameOrUrl).GetAwaiter().GetResult();
         }
@@ -59,7 +59,7 @@ namespace SmallBasicOpenEditionDll.Classes
         /// </summary>
         /// <param name="fileNameOrUrl">The file path or URL of the image to load.</param>
         /// <returns>A task representing the asynchronous operation. The task result is the name of the loaded image, or an empty string on failure.</returns>
-        private static async Task<string> LoadImageAsync(string fileNameOrUrl)
+        private static async Task<string?> LoadImageAsync(string fileNameOrUrl)
         {
             LastError = null;
             try
@@ -88,7 +88,7 @@ namespace SmallBasicOpenEditionDll.Classes
             {
                 // Set LastError on failure
                 LastError = ex.Message;
-                return string.Empty;
+                return null;
             }
         }
 
@@ -100,7 +100,7 @@ namespace SmallBasicOpenEditionDll.Classes
             if (!images.TryGetValue(imageName, out Image? image))
             {
                 LastError = $"Image with name {imageName} not found.";
-                return -1;
+                return 0;
             }
             LastError = null;
             return image.Width;

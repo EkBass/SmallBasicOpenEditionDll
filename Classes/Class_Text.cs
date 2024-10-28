@@ -132,6 +132,31 @@ namespace SmallBasicOpenEditionDll.Classes
         /// <returns>Inverted text.</returns>
         public static string InvertText(string text) => new(text.Reverse().ToArray());
 
+        /// <summary>Trims trailing whitespaces from text</summary>
+        /// <param name="text">The text to trim..</param>
+        /// <returns>Trimmed text.</returns>
+        public static string RightTrim(string input)
+        {
+            return input.TrimEnd();
+        }
+
+        /// <summary>Trims leading whitespaces from text</summary>
+        /// <param name="text">The text to trim..</param>
+        /// <returns>Trimmed text.</returns>
+        public static string LeftTrim(string input)
+        {
+            return input.TrimStart();
+        }
+
+        /// <summary>Trims leading and trailing whitespaces from text</summary>
+        /// <param name="text">The text to trim..</param>
+        /// <returns>Trimmed text.</returns>
+        public static string Trim(string input)
+        {
+            return input.Trim();
+        }
+
+
         /// <summary>Converts number as string. 123 > "123"</summary>
         /// <param name="text">The text to convert.</param>
         public static string Str(int number) => number.ToString();

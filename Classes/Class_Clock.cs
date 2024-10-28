@@ -42,11 +42,58 @@ namespace SmallBasicOpenEditionDll.Classes
         // Store the program start time to calculate elapsed time later
         private static readonly DateTimeOffset programStart = DateTimeOffset.UtcNow;
 
-        /// <summary>Returns the current system time as a string in "HH:mm:ss" format.</summary>
-        public static string Time => DateTimeOffset.Now.ToString("HH:mm:ss");
+        private static string _timeFormat = "HH:mm:ss";
 
-        /// <summary>Returns the current system date as a string in "yyyy-MM-dd" format.</summary>
-        public static string Date => DateTimeOffset.Now.ToString("yyyy-MM-dd");
+        // set or get time format
+        public static string TimeFormat
+        {
+            get => _timeFormat;
+            set
+            {
+                // Validate the format using DateTime.TryParseExact
+                if (IsValidTimeFormat(value))
+                {
+                    _timeFormat = value;
+                }
+                else
+                {
+                    LastError = $"Invalid time format: {value}";
+                }
+            }
+        }
+
+        private static string _dateFormat = "yyyy-MM-dd";
+
+        // set or get date format
+        public static string DateFormat
+        {
+            get => _dateFormat;
+            set
+            {
+                // Validate the format using DateTime.TryParseExact
+                if (IsValidTimeFormat(value))
+                {
+                    _dateFormat = value;
+                }
+                else
+                {
+                    LastError = $"Invalid date format: {value}";
+                }
+            }
+        }
+
+        // Helper methods for format validation
+        private static bool IsValidTimeFormat(string format)
+        {
+            DateTime dummy;
+            return DateTime.TryParseExact(DateTime.Now.ToString(), format, null, System.Globalization.DateTimeStyles.None, out dummy);
+        }
+
+        /// <summary>Returns the current system time as a string in _timeFormat.</summary>
+        public static string Time => DateTimeOffset.Now.ToString(_timeformat);
+
+        /// <summary>Returns the current system date as a string in _dateFormat</summary>
+        public static string Date => DateTimeOffset.Now.ToString(_dateFormat);
 
         /// <summary>Returns the current system year as an integer.</summary>
         public static int Year => DateTimeOffset.Now.Year;

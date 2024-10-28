@@ -51,7 +51,6 @@ namespace SmallBasicOpenEditionDll.Classes
         {
             if (GraphicsWindow.DrawingPanel == null)
             {
-                LastError = "Graphics window is not initialized.";
                 return false;
             }
             return true;
@@ -149,6 +148,7 @@ namespace SmallBasicOpenEditionDll.Classes
             return AddMultiLineTextBoxWithSize(left, top, defaultSize, defaultSize);
         }
 
+		/// <summary>Adds a multi-line textbox with defined size to the GraphicsWindow at the specified position.</summary>
         public static string? AddMultiLineTextBoxWithSize(int left, int top, int width, int height)
         {
             LastError = null;
