@@ -9,7 +9,7 @@
  * The Clock class provides access to the system's date and time, offering properties to retrieve current time, date, and related information in different formats.
  */
 
-namespace SmallBasicOpenEditionDll.Classes
+namespace SmallBasicOpenEditionDll
 {
     /// <summary>Provides access to the system clock to retrieve the current time, date, and related information.</summary>
     public static class Clock
@@ -83,14 +83,10 @@ namespace SmallBasicOpenEditionDll.Classes
         }
 
         // Helper methods for format validation
-        private static bool IsValidTimeFormat(string format)
-        {
-            DateTime dummy;
-            return DateTime.TryParseExact(DateTime.Now.ToString(), format, null, System.Globalization.DateTimeStyles.None, out dummy);
-        }
+        private static bool IsValidTimeFormat(string format) => DateTime.TryParseExact(DateTime.Now.ToString(), format, null, System.Globalization.DateTimeStyles.None, result: out DateTime dummy);
 
         /// <summary>Returns the current system time as a string in _timeFormat.</summary>
-        public static string Time => DateTimeOffset.Now.ToString(_timeformat);
+        public static string Time => DateTimeOffset.Now.ToString(_timeFormat);
 
         /// <summary>Returns the current system date as a string in _dateFormat</summary>
         public static string Date => DateTimeOffset.Now.ToString(_dateFormat);

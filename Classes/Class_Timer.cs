@@ -11,7 +11,7 @@
 
 using System.Timers;
 
-namespace SmallBasicOpenEditionDll.Classes
+namespace SmallBasicOpenEditionDll
 {
     /// <summary>Provides functionality for creating and controlling a timer, including setting intervals, pausing, and resuming the timer.</summary>
     public static class Timer

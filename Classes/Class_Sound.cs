@@ -13,7 +13,7 @@
 using System.Media;
 using System.Windows.Media;
 
-namespace SmallBasicOpenEditionDll.Classes
+namespace SmallBasicOpenEditionDll
 {
     /// <summary>
     /// Provides methods for playing system sounds and audio files, as well as controlling playback such as stopping, pausing, and waiting for playback to complete.

@@ -9,7 +9,7 @@
  * Provides methods to create and manage multiple stacks, identified by name, allowing values to be pushed and popped.
  */
 
-namespace SmallBasicOpenEditionDll.Classes
+namespace SmallBasicOpenEditionDll
 {
     /// <summary>Provides methods to create and manage multiple stacks, identified by name, allowing values to be pushed and popped.</summary>
     public static class Stack

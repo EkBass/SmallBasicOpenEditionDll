@@ -9,7 +9,7 @@
  * Provides methods and properties related to the execution of the program, including command-line argument handling delays, and termination.
  */
 
-namespace SmallBasicOpenEditionDll.Classes
+namespace SmallBasicOpenEditionDll
 {
     /// <summary>Provides methods and properties related to the execution of the program, including command-line argument handling, delays, and termination.</summary>
     public static class Program

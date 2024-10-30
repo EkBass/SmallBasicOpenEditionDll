@@ -12,7 +12,7 @@
 
 using System.IO;
 using System.Net.Http;
-namespace SmallBasicOpenEditionDll.Classes
+namespace SmallBasicOpenEditionDll
 {
     /// <summary>ImageList class provides methods to load, store, and retrieve images from local file paths or URLs.</summary>
     public static class ImageList

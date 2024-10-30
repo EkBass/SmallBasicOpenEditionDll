@@ -10,7 +10,7 @@
   */
 
 using System.IO;
-namespace SmallBasicOpenEditionDll.Classes
+namespace SmallBasicOpenEditionDll
 {
     /// <summary>Provides methods for file and directory operations, such as reading, writing, copying, and deleting files.</summary>
     public static class File

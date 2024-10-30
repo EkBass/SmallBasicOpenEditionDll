@@ -20,12 +20,12 @@ namespace SmallBasicOpenEditionDll
 {
     public static class Shapes
     {
-        private static Dictionary<string, Control> shapes = new();
-        private static Dictionary<string, float> shapeRotations = new();
+        private static readonly Dictionary<string, Control> shapes = [];
+        private static readonly Dictionary<string, float> shapeRotations = [];
         private static int shapeCounter = 0;
-        private static Form? graphicsForm = GraphicsWindow.graphicsForm;
+        private static readonly Form? graphicsForm = GraphicsWindow.GraphicsForm;
         // Dictionary to store the opacity values for each shape (default to 100)
-        private static Dictionary<string, float> shapeOpacities = new();
+        private static readonly Dictionary<string, float> shapeOpacities = [];
         // Backing field for LastError
         private static string? _lastError;
 
@@ -58,7 +58,7 @@ namespace SmallBasicOpenEditionDll
         /// <returns>The name of the created rectangle shape.</returns>
         public static string? AddRectangle(int width, int height)
         {
-            if (GraphicsWindow.drawingPanel == null) return null;
+            if (GraphicsWindow.DrawingPanel == null) return null;
 
             try
             {
@@ -70,7 +70,7 @@ namespace SmallBasicOpenEditionDll
                     e.Graphics.FillRectangle(Brushes.Blue, 0, 0, width, height);
                 };
 
-                GraphicsWindow.drawingPanel.Controls.Add(rectangle);
+                GraphicsWindow.DrawingPanel.Controls.Add(rectangle);
                 shapes[shapeName] = rectangle;
                 shapeRotations[shapeName] = 0;
                 LastError = null;
@@ -89,7 +89,7 @@ namespace SmallBasicOpenEditionDll
         /// <returns>The name of the created ellipse shape.</returns>
         public static string? AddEllipse(int width, int height)
         {
-            if (GraphicsWindow.drawingPanel == null) return null;
+            if (GraphicsWindow.DrawingPanel == null) return null;
 
             try
             {
@@ -101,7 +101,7 @@ namespace SmallBasicOpenEditionDll
                     e.Graphics.FillEllipse(Brushes.Green, 0, 0, width, height);
                 };
 
-                GraphicsWindow.drawingPanel.Controls.Add(ellipse);
+                GraphicsWindow.DrawingPanel.Controls.Add(ellipse);
                 shapes[shapeName] = ellipse;
                 shapeRotations[shapeName] = 0;
                 LastError = null;
@@ -125,7 +125,7 @@ namespace SmallBasicOpenEditionDll
         /// <summary>Adds a triangle to the GraphicsWindow defined by three sets of coordinates.</summary>
         public static string? AddTriangle(int x1, int y1, int x2, int y2, int x3, int y3)
         {
-            if (GraphicsWindow.drawingPanel == null) return null;
+            if (GraphicsWindow.DrawingPanel == null) return null;
 
             try
             {
@@ -142,7 +142,7 @@ namespace SmallBasicOpenEditionDll
                     e.Graphics.FillPolygon(Brushes.Red, new Point[] { new(x1, y1), new(x2, y2), new(x3, y3) });
                 };
 
-                GraphicsWindow.drawingPanel.Controls.Add(triangle);
+                GraphicsWindow.DrawingPanel.Controls.Add(triangle);
                 shapes[shapeName] = triangle;
                 shapeRotations[shapeName] = 0;
                 LastError = null;
@@ -163,7 +163,7 @@ namespace SmallBasicOpenEditionDll
         /// <returns>The name of the created line shape.</returns>
         public static string? AddLine(int x1, int y1, int x2, int y2)
         {
-            if (GraphicsWindow.drawingPanel == null) return null;
+            if (GraphicsWindow.DrawingPanel == null) return null;
 
             try
             {
@@ -176,7 +176,7 @@ namespace SmallBasicOpenEditionDll
                     e.Graphics.DrawLine(Pens.Black, x1, y1, x2, y2);
                 };
 
-                GraphicsWindow.drawingPanel.Controls.Add(line);
+                GraphicsWindow.DrawingPanel.Controls.Add(line);
                 shapes[shapeName] = line;
                 shapeRotations[shapeName] = 0;
                 LastError = null;
@@ -196,7 +196,7 @@ namespace SmallBasicOpenEditionDll
         {
             try
             {
-                Image image = ImageList.GetImageByName(imageName);
+                Image? image = ImageList.GetImageByName(imageName);
                 if (image != null)
                 {
                     PictureBox pictureBox = new() { Image = image, Size = image.Size, Name = "Shape" + shapeCounter++ };
@@ -478,7 +478,7 @@ namespace SmallBasicOpenEditionDll
                 return -1;
             }
 
-            if (shapes.TryGetValue(shapeName, out var control))
+            if (shapes.TryGetValue(shapeName, out Control? control))
             {
                 // Check if the shape has a tracked opacity value
                 if (shapeOpacities.TryGetValue(shapeName, out var opacity))
@@ -543,13 +543,15 @@ namespace SmallBasicOpenEditionDll
         /// <summary>Applies an opacity level to an image.</summary>
         private static Image SetImageOpacity(Image image, float opacity)
         {
-            Bitmap bmp = new Bitmap(image.Width, image.Height);
+            Bitmap bmp = new(image.Width, image.Height);
             Graphics gfx = Graphics.FromImage(bmp);
 
-            ColorMatrix colorMatrix = new ColorMatrix();
-            colorMatrix.Matrix33 = opacity; // Set the opacity level (alpha channel)
+            ColorMatrix colorMatrix = new()
+            {
+                Matrix33 = opacity // Set the opacity level (alpha channel)
+            };
 
-            ImageAttributes attributes = new ImageAttributes();
+            ImageAttributes attributes = new();
             attributes.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
             gfx.DrawImage(image, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, attributes);

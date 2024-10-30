@@ -12,7 +12,7 @@
 
 using System.Drawing;
 
-namespace SmallBasicOpenEditionDll.Classes
+namespace SmallBasicOpenEditionDll
 {
     public static class GraphicsWindow
     {
@@ -282,8 +282,8 @@ namespace SmallBasicOpenEditionDll.Classes
 
         private static Graphics? _graphics;
         private static Form? _graphicsForm;
+        public static Form? GraphicsForm => _graphicsForm;
         private static Panel? _drawingPanel;
-
         public static Panel? DrawingPanel => _drawingPanel;
 
         private static void GraphicsForm_MouseMove(object? sender, MouseEventArgs e)

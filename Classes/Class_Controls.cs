@@ -11,7 +11,7 @@
  * When adding a control, the class only returns the name of the control to external code, not the actual control object.
 */
 
-namespace SmallBasicOpenEditionDll.Classes
+namespace SmallBasicOpenEditionDll
 {
     /// <summary>Provides functionality to create and manage UI controls (buttons, textboxes) in the GraphicsWindow.</summary>
     public static class Controls

@@ -10,7 +10,7 @@
  * Operations include basic arithmetic, trigonometric calculations, logarithms, rounding, and random number generation.
  * */
 
-namespace SmallBasicOpenEditionDll.Classes
+namespace SmallBasicOpenEditionDll
 {
     /// <summary>
     /// Provides mathematical functions and constants, including basic arithmetic operations,

@@ -12,7 +12,7 @@
 using System.IO;
 using System.Net.Http;
 
-namespace SmallBasicOpenEditionDll.Classes
+namespace SmallBasicOpenEditionDll
 {
     /// <summary>
     /// Provides methods to perform network operations, such as downloading files and retrieving web page contents.

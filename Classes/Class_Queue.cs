@@ -9,7 +9,7 @@
  * Provides methods to create and manage multiple queues, identified by name, allowing values to be enqueued and dequeued.
  */
 
-namespace SmallBasicOpenEditionDll.Classes
+namespace SmallBasicOpenEditionDll
 {
     public static class Queue
     {

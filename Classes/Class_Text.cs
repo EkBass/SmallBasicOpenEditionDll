@@ -9,7 +9,7 @@
  * Provides methods for performing text manipulations such as concatenation, searching, case conversion, and substring operations.
  */
 
-namespace SmallBasicOpenEditionDll.Classes
+namespace SmallBasicOpenEditionDll
 {
     /// <summary>
     /// Provides methods for performing text manipulations such as concatenation, searching, case conversion, and substring operations.

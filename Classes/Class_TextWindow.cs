@@ -12,7 +12,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace SmallBasicOpenEditionDll.Classes
+namespace SmallBasicOpenEditionDll
 {
     public static partial class TextWindow
     {
